@@ -3,7 +3,7 @@
 */
 
 #include "st_begin.hxx"
-#include "st_game.hxx"
+#include "st_menu.hxx"
 #include <iostream>
 
 STBegin STBegin::m_this;
@@ -37,7 +37,7 @@ void STBegin::handleEvents(cgf::Game* game) {
     }
 
     if(m_inputs->testEvent("Enter")) {
-        game->changeState(STGame::instance());
+        game->changeState(STMenu::instance());
     }
 }
 

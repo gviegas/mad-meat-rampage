@@ -7,6 +7,11 @@
 
 #include "GameState.h"
 #include "InputManager.h"
+#include "aux.hxx"
+#include <unordered_map>
+
+enum class ButtonType { Play = 0, Options, Credits, Exit, Continue };
+using Buttons = std::unordered_map<ButtonType, sf::Sprite, aux::Hasher>;
 
 class STMenu: public cgf::GameState {
 public:
@@ -21,10 +26,15 @@ public:
     void draw(cgf::Game* game);
 
     static STMenu* instance() { return &m_this; }
+
+    void loadConf(const std::string& fileName);
 protected:
     STMenu() {}
 private:
     static STMenu m_this;
+    sf::Texture m_texture;
+    Buttons m_buttons;
+    cgf::InputManager* m_inputs;
 };
 
 #endif;

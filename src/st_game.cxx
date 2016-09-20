@@ -12,6 +12,15 @@ void STGame::cleanup() {}
 void STGame::pause() {}
 void STGame::resume() {}
 
-void STGame::handleEvents(cgf::Game* game) {}
+void STGame::handleEvents(cgf::Game* game) {
+    sf::RenderWindow* screen = game->getScreen();
+    sf::Event event;
+    while(screen->pollEvent(event)) {
+        if(event.type == sf::Event::Closed) {
+            game->quit();
+        }
+    }
+}
+
 void STGame::update(cgf::Game* game) {}
 void STGame::draw(cgf::Game* game) {}
