@@ -22,5 +22,11 @@ void STGame::handleEvents(cgf::Game* game) {
     }
 }
 
-void STGame::update(cgf::Game* game) {}
-void STGame::draw(cgf::Game* game) {}
+void STGame::update(cgf::Game* game) {
+    sf::RenderWindow* screen = game->getScreen();
+    m_map.update(screen);
+}
+void STGame::draw(cgf::Game* game) {
+    sf::RenderWindow* screen = game->getScreen();
+    m_map.draw(screen);
+}

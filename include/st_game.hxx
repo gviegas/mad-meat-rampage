@@ -7,6 +7,7 @@
 
 #include "GameState.h"
 #include "InputManager.h"
+#include "tile_map.hxx"
 
 class STGame: public cgf::GameState {
 public:
@@ -25,6 +26,7 @@ protected:
     STGame() {}
 private:
     static STGame m_this;
+    TileMap m_map;
 };
 
 #endif;
