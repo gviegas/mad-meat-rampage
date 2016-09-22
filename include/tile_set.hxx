@@ -27,11 +27,13 @@ using Tiles = std::unordered_map<TilePos, Tile*>;
 
 class TileSet {
 public:
-    TileSet(sf::Vector2u gridSize);
+    TileSet(sf::Vector2u gridSize, sf::Vector2u tileSize);
     ~TileSet();
 
     Tile* getTile(const sf::Vector2u& pos);
     Tiles* getTileSet();
+    sf::Vector2u getGridSize();
+    sf::Vector2u getTileSize();
     void setTexture(const std::string& texFile);
 
     bool addTileType(TileTypeId id, TileType* type);
@@ -47,6 +49,7 @@ private:
     Tiles m_tiles;
     sf::Texture m_texture;
     sf::Vector2u m_gridSize;
+    sf::Vector2u m_tileSize;
 };
 
 #endif

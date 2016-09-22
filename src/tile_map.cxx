@@ -8,9 +8,10 @@
 #include <sstream>
 #include <iostream>
 
-TileMap::TileMap(): m_tileSet({800, 600}) {
-    loadConf("data/confs/map.conf");
-    m_bg.scale(800.0 / 1920.0, 600.0 / 1080);
+TileMap::TileMap(): m_tileSet({800 / 32, 600 / 32}, {32, 32}) {
+    loadConf("data/confs/map1.conf");
+    loadMap("data/maps/map1.map");
+    m_bg.scale(800.0 / 1920.0, 600.0 / 1080.0);
 }
 
 TileMap::~TileMap() {}
@@ -39,7 +40,7 @@ void TileMap::loadConf(const std::string& fileName) {
             } else if(attr == "TILESET") {
                 std::string texFile;
                 sstream >> texFile;
-                m_tileSet.setTexture(aux::getBasePath() + texFile);
+                m_tileSet.setTexture(texFile);
             } else if(attr == "START") {
                 float x, y;
                 sstream >> x >> y;
@@ -48,7 +49,7 @@ void TileMap::loadConf(const std::string& fileName) {
                 float gravity;
                 sstream >> gravity;
                 m_gravity = gravity;
-            } else if(attr == "TILE") {
+            } else if(attr == "TILETYPE") {
                 int id, top, left, width, height;
                 sstream >> id >> top >> left >> width >> height;
                 TileType* type = new TileType({top, left, width, height});
@@ -62,9 +63,46 @@ void TileMap::loadConf(const std::string& fileName) {
         file.close();
     }
 }
-void TileMap::loadMap(const std::string& fileName) {}
+void TileMap::loadMap(const std::string& fileName) {
+    std::ifstream file;
+    file.open(aux::getBasePath() + fileName);
+    if(!file.is_open()) {
+        std::cerr << "ERROR: TileMap::loadMap - " << fileName << std::endl;
+    } else {
+        std::string line;
+        while(std::getline(file, line)) {
+            std::stringstream sstream(line);
+            std::string attr;
+            sstream >> attr;
+            if(attr == "TILE") {
+                int id, x, y;
+                sstream >> id >> x >> y;
+                if(!m_tileSet.addTile(id, {x, y})) {
+                    std::cerr << "ERROR: TileMap::loadMap - TILE " <<
+                      id << std::endl;
+                }
+            }
+        }
+        file.close();
+    }
+
+}
 
 void TileMap::update(sf::RenderWindow* screen) {}
 void TileMap::draw(sf::RenderWindow* screen) {
     screen->draw(m_bg);
+    // todo: culling (won't be needed if the map and the screen
+    // have the same size...)
+    for(int i = 0; i < m_tileSet.getGridSize().x; ++i) {
+        for(int j = 0; j < m_tileSet.getGridSize().y; ++j) {
+            Tile* tile;
+            if(tile = m_tileSet.getTile({i, j})) {
+                sf::Sprite& sprite = tile->m_type->m_sprite;
+                sprite.setPosition(tile->m_pos.x * m_tileSet.getTileSize().x,
+                  tile->m_pos.y * m_tileSet.getTileSize().y);
+                screen->draw(sprite);
+            }
+        }
+
+    }
 }

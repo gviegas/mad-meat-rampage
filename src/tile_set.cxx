@@ -6,7 +6,8 @@
 #include "aux.hxx"
 #include <iostream>
 
-TileSet::TileSet(sf::Vector2u gridSize): m_gridSize(gridSize) {}
+TileSet::TileSet(sf::Vector2u gridSize, sf::Vector2u tileSize): 
+  m_gridSize(gridSize), m_tileSize(tileSize) {}
 
 TileSet::~TileSet() {
     clearTileTypes();
@@ -19,12 +20,15 @@ Tile* TileSet::getTile(const sf::Vector2u& pos) {
 }
 
 Tiles* TileSet::getTileSet() { return &m_tiles; }
+sf::Vector2u TileSet::getGridSize() { return m_gridSize; }
+sf::Vector2u TileSet::getTileSize() { return m_tileSize; }
 
 void TileSet::setTexture(const std::string& texFile) {
     m_texture.loadFromFile(aux::getBasePath() + texFile);
 }
 
 bool TileSet::addTileType(TileTypeId id, TileType* type) { 
+    type->m_sprite.setTexture(m_texture);
     return (m_types.emplace(id, type).second);
 }
 
