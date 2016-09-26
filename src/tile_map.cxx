@@ -8,18 +8,26 @@
 #include <sstream>
 #include <iostream>
 
-TileMap::TileMap(): m_tileSet({800 / 32, 600 / 32}, {32, 32}) {
+TileMap::TileMap(): m_tileSet({1280 / 64, 960 / 64}, {64, 64}) {
     loadConf("data/confs/map1.conf");
     loadMap("data/maps/map1.map");
-    m_bg.scale(800.0 / 1920.0, 600.0 / 1080.0);
+    m_bg.scale(1280.0 / 1920.0, 960.0 / 1080.0);
 }
 
 TileMap::~TileMap() {}
 
-sf::FloatRect TileMap::getTileBB(const sf::Vector2u& pos) {}
+sf::FloatRect TileMap::getTileBBox(const sf::Vector2u& pos) { // todo: return ref
+    Tile* tile = m_tileSet.getTile(pos);
+    if(!tile) { return {-1, -1, -1, -1}; } // todo: get rid of this
+    sf::FloatRect rect = tile->m_type->m_sprite.getLocalBounds();
+    rect.left = tile->m_pos.x * getTileSize().x;
+    rect.top = tile->m_pos.y * getTileSize().y;
+    return rect;
+}
 
-sf::Vector2f TileMap::getPlayerStart() const { return m_playerStart; }
+const sf::Vector2f& TileMap::getPlayerStart() const { return m_playerStart; }
 float TileMap::getGravity() const { return m_gravity; }
+const sf::Vector2u& TileMap::getTileSize() const { return m_tileSet.getTileSize(); }
 
 void TileMap::loadConf(const std::string& fileName) {
     std::ifstream file;

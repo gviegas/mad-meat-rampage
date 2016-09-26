@@ -20,8 +20,8 @@ Tile* TileSet::getTile(const sf::Vector2u& pos) {
 }
 
 Tiles* TileSet::getTileSet() { return &m_tiles; }
-sf::Vector2u TileSet::getGridSize() { return m_gridSize; }
-sf::Vector2u TileSet::getTileSize() { return m_tileSize; }
+const sf::Vector2u& TileSet::getGridSize() const { return m_gridSize; }
+const sf::Vector2u& TileSet::getTileSize() const { return m_tileSize; }
 
 void TileSet::setTexture(const std::string& texFile) {
     m_texture.loadFromFile(aux::getBasePath() + texFile);

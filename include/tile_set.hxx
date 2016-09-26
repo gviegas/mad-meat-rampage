@@ -2,8 +2,8 @@
 * Created by Gustavo Viegas (2016/09)
 */
 
-#ifndef TILE_SET_HH
-#define TILE_SET_HH
+#ifndef TILE_SET_HXX
+#define TILE_SET_HXX
 
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
@@ -32,8 +32,8 @@ public:
 
     Tile* getTile(const sf::Vector2u& pos);
     Tiles* getTileSet();
-    sf::Vector2u getGridSize();
-    sf::Vector2u getTileSize();
+    const sf::Vector2u& getGridSize() const;
+    const sf::Vector2u& getTileSize() const;
     void setTexture(const std::string& texFile);
 
     bool addTileType(TileTypeId id, TileType* type);
