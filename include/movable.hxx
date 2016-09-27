@@ -17,18 +17,23 @@ public:
         if(dir == Direction::Left) { m_pos -= m_speed; }
         else { m_pos += m_speed; }
     }
+    void move(sf::Vector2f vec) {
+        m_oldPos = m_pos;
+        m_pos += vec;
+    }
 
     void changeDirection(Direction dir) { m_dir = dir; m_dirChanged = true; }
     void setPosition(sf::Vector2f vec) {  m_oldPos = m_pos; m_pos = vec; }
     void setSpeed(sf::Vector2f vec) { m_speed = vec; }
-    void accelerate(const sf::Vector2f& vec) { m_speed += vec; }
+    void setAcceleration(sf::Vector2f vec) { m_acceleration = vec; }
+    void accelerate(const sf::Vector2f& vec) { m_acceleration += vec; }
 protected:
     Direction m_dir;
     bool m_dirChanged;
     sf::Vector2f m_pos;
     sf::Vector2f m_oldPos;
     sf::Vector2f m_speed;
-    //sf::Vector2f m_acceleration;
+    sf::Vector2f m_acceleration;
 };
 
 #endif

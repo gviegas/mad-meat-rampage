@@ -40,15 +40,21 @@ void Character::loadConf(const std::string& fileName) {
     }
 }
 
-// todo: vertical collision...
+// todo: have a way to know which kind of collision happened -
+// a vertical or a horizontal one - to know which logic to apply.
+// maybe sort collisions on check...
 void Character::onTileCollision(sf::FloatRect tileRect) {
     // test block
-    if(m_pos.x < tileRect.left) { 
-        setPosition({tileRect.left - m_bBox.width, m_pos.y}); 
+    if(m_pos.y < tileRect.top) {
+        setPosition({m_pos.x, tileRect.top - m_bBox.height});
+    } else if(m_pos.y > tileRect.top) {
+        setPosition({m_pos.x, tileRect.top + tileRect.height});
     }
-    else if(m_pos.x > tileRect.left) {
-        setPosition({tileRect.left + tileRect.width, m_pos.y});
-    }
+    //if(m_pos.x < tileRect.left) { 
+    //    setPosition({tileRect.left - m_bBox.width, m_pos.y}); 
+    //} else if(m_pos.x > tileRect.left) {
+    //    setPosition({tileRect.left + tileRect.width, m_pos.y});
+    //}
     //std::cout << "collided!" << std::endl;
     // end test
 }
@@ -59,9 +65,12 @@ void Character::update(sf::RenderWindow* screen) {
     //    m_dirChanged = false;
     //    m_sprite.scale({-1.0, 1.0});
     //} else { 
+        accelerate({0.0, 10.0});
+        move(m_acceleration);
         m_sprite.setPosition(m_pos);
         m_bBox.left = m_pos.x;
         m_bBox.top = m_pos.y;
+        setAcceleration({0.0, 0.0});
     //}
     // end testing
 }
