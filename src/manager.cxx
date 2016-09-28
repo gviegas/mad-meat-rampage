@@ -13,6 +13,7 @@ void Manager::init(TileMap* map) {
     m_inputs = cgf::InputManager::instance();
     m_inputs->addKeyInput(GameInput::Left, sf::Keyboard::Left);
     m_inputs->addKeyInput(GameInput::Right, sf::Keyboard::Right);
+    m_inputs->addKeyInput(GameInput::Jump, sf::Keyboard::Up);
 }
 
 void Manager::handleEvents() {
@@ -21,6 +22,9 @@ void Manager::handleEvents() {
     }
     if(m_inputs->testEvent(GameInput::Right)) {
         m_player.handleInput(GameInput::Right);
+    }
+    if(m_inputs->testEvent(GameInput::Jump)) {
+        m_player.handleInput(GameInput::Jump);
     }
 }
 

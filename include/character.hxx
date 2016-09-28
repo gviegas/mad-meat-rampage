@@ -19,6 +19,8 @@ public:
 
     void update(sf::RenderWindow* screen);
     void draw(sf::RenderWindow* screen);
+protected:
+    Condition m_condition;
 };
 
 #endif

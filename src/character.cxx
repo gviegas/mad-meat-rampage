@@ -7,7 +7,9 @@
 #include <sstream>
 #include <iostream>
 
-Character::Character(sf::Vector2f startPos): GameBeing(startPos) {}
+Character::Character(sf::Vector2f startPos): GameBeing(startPos) {
+    m_condition = Condition::None;
+}
 Character::~Character() {}
 
 void Character::loadConf(const std::string& fileName) {
@@ -34,6 +36,10 @@ void Character::loadConf(const std::string& fileName) {
                 float x, y;
                 sstream >> x >> y;
                 m_speed = {x, y};
+            } else if(attr == "JUMP") {
+                float height;
+                sstream >> height;
+                m_jumpHeight = height;
             }
         }
         file.close();
@@ -45,6 +51,7 @@ void Character::loadConf(const std::string& fileName) {
 // maybe sort collisions on check...
 void Character::onTileCollision(sf::FloatRect tileRect) {
     // test block
+    m_condition = Condition::None;
     if(m_pos.y < tileRect.top) {
         setPosition({m_pos.x, tileRect.top - m_bBox.height});
     } else if(m_pos.y > tileRect.top) {
@@ -65,7 +72,7 @@ void Character::update(sf::RenderWindow* screen) {
     //    m_dirChanged = false;
     //    m_sprite.scale({-1.0, 1.0});
     //} else { 
-        accelerate({0.0, 10.0});
+        accelerate({0.0, 16.0});
         move(m_acceleration);
         m_sprite.setPosition(m_pos);
         m_bBox.left = m_pos.x;

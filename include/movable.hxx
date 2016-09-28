@@ -17,9 +17,16 @@ public:
         if(dir == Direction::Left) { m_pos -= m_speed; }
         else { m_pos += m_speed; }
     }
+
     void move(sf::Vector2f vec) {
         m_oldPos = m_pos;
         m_pos += vec;
+    }
+
+    void jump(float height) {
+       m_oldPos = m_pos;
+       if(height > 0) { move({0.0, -height}); }
+       else { move({0.0, height}); }
     }
 
     void changeDirection(Direction dir) { m_dir = dir; m_dirChanged = true; }
@@ -34,6 +41,7 @@ protected:
     sf::Vector2f m_oldPos;
     sf::Vector2f m_speed;
     sf::Vector2f m_acceleration;
+    float m_jumpHeight;
 };
 
 #endif
