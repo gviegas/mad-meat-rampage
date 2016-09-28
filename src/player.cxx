@@ -22,7 +22,7 @@ void Player::handleInput(const std::string& input) {
         if(m_dir != Direction::Right) { changeDirection(Direction::Right); }
         move(Direction::Right); 
     } else if(input == GameInput::Jump) {
-        //if(m_condition == Condition::Jumping) { return; }
+        if(m_condition == Condition::Jumping) { return; }
         m_condition = Condition::Jumping;
         jump(m_jumpHeight); // testing
     }

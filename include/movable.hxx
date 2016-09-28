@@ -23,10 +23,16 @@ public:
         m_pos += vec;
     }
 
+    //void jump(float height) {
+    //   m_oldPos = m_pos;
+    //   if(height > 0) { move({0.0, -height}); }
+    //   else { move({0.0, height}); }
+    //}
+
     void jump(float height) {
        m_oldPos = m_pos;
-       if(height > 0) { move({0.0, -height}); }
-       else { move({0.0, height}); }
+       if(height > 0) { accelerate({0.0, -height}); }
+       else { accelerate({0.0, height}); }
     }
 
     void changeDirection(Direction dir) { m_dir = dir; m_dirChanged = true; }
