@@ -52,6 +52,7 @@ void Character::loadConf(const std::string& fileName) {
 void Character::onTileCollision(sf::FloatRect tileRect) {
     // test block
     m_condition = Condition::None;
+    setVelocity({0.0, 0.0});
     if(m_pos.y < tileRect.top) {
         setPosition({m_pos.x, tileRect.top - m_bBox.height});
     } else if(m_pos.y > tileRect.top) {
@@ -72,14 +73,21 @@ void Character::update(sf::RenderWindow* screen) {
     //    m_dirChanged = false;
     //    m_sprite.scale({-1.0, 1.0});
     //} else { 
-        accelerate({0.0, 16.0});
-        move(m_acceleration);
-        m_sprite.setPosition(m_pos);
-        m_bBox.left = m_pos.x;
-        m_bBox.top = m_pos.y;
-        setAcceleration({0.0, 0.0});
+    //    accelerate({0.0, 16.0});
+    //    move(m_acceleration);
+    //    m_sprite.setPosition(m_pos);
+    //    m_bBox.left = m_pos.x;
+    //    m_bBox.top = m_pos.y;
+    //    setAcceleration({0.0, 0.0});
     //}
     // end testing
+    move(m_velocity);
+    accelerate({0.0, 0.5});
+    addVelocity(m_acceleration);
+    setAcceleration({0.0, 0.0});
+    m_sprite.setPosition(m_pos);
+    m_bBox.left = m_pos.x;
+    m_bBox.top = m_pos.y;
 }
 
 void Character::draw(sf::RenderWindow* screen) {

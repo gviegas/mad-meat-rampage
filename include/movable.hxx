@@ -31,8 +31,8 @@ public:
 
     void jump(float height) {
        m_oldPos = m_pos;
-       if(height > 0) { accelerate({0.0, -height}); }
-       else { accelerate({0.0, height}); }
+       if(height > 0) { addVelocity({0.0, -height}); }
+       else { addVelocity({0.0, height}); }
     }
 
     void changeDirection(Direction dir) { m_dir = dir; m_dirChanged = true; }
@@ -40,6 +40,8 @@ public:
     void setSpeed(sf::Vector2f vec) { m_speed = vec; }
     void setAcceleration(sf::Vector2f vec) { m_acceleration = vec; }
     void accelerate(const sf::Vector2f& vec) { m_acceleration += vec; }
+    void setVelocity(sf::Vector2f vec) { m_velocity = vec; }
+    void addVelocity(const sf::Vector2f& vec) { m_velocity += vec; }
 protected:
     Direction m_dir;
     bool m_dirChanged;
@@ -47,6 +49,7 @@ protected:
     sf::Vector2f m_oldPos;
     sf::Vector2f m_speed;
     sf::Vector2f m_acceleration;
+    sf::Vector2f m_velocity;
     float m_jumpHeight;
 };
 

@@ -24,6 +24,6 @@ void Player::handleInput(const std::string& input) {
     } else if(input == GameInput::Jump) {
         if(m_condition == Condition::Jumping) { return; }
         m_condition = Condition::Jumping;
-        jump(m_jumpHeight); // testing
+        jump(m_jumpHeight);
     }
 }
