@@ -30,44 +30,10 @@ void Manager::handleEvents() {
 
 void Manager::update(sf::RenderWindow* screen) {
     m_player.update(screen);
-    checkCollisions(&m_player);
-    resolveCollisions();
+    m_collisionSystem.checkCollisions(&m_player, m_collidables, m_map);
+    m_collisionSystem.resolveCollisions();
 }
 
 void Manager::draw(sf::RenderWindow* screen) {
     m_player.draw(screen);
-}
-
-bool Manager::isColliding(Collidable* collidable, sf::FloatRect tileRect) {
-    return (collidable->getBBox().intersects(tileRect));
-}
-bool Manager::isColliding(Collidable* collidA, Collidable* collidB) {
-    return (collidA->getBBox().intersects(collidB->getBBox()));
-}
-
-// todo: check collision between collidables
-void Manager::checkCollisions(Collidable* collidable) {
-    sf::FloatRect rect = collidable->getBBox();
-    int rx = m_map->getTileSize().x;
-    int ry = m_map->getTileSize().y;
-    for(int x = rect.left / rx; x <= (rect.left + rect.width) / rx; ++x) {
-        for(int y = rect.top / ry; y <= (rect.top + rect.height) / ry; ++y) {
-            sf::FloatRect tileRect = m_map->getTileBBox({x, y});
-            if(isColliding(collidable, tileRect)) {
-                CollisionData data {collidable, tileRect};
-                m_collisions.emplace_back(std::make_pair(CollisionTarget::Tile, data));
-            }
-        }
-    }
-}
-
-void Manager::resolveCollisions() {
-    for(auto& iter : m_collisions) {
-        if(iter.first == CollisionTarget::Tile) {
-            iter.second.m_collidable->onTileCollision(iter.second.m_tileRect);
-        } else if(iter.first == CollisionTarget::Collidable) {
-            iter.second.m_collidable->onCollision(iter.second.m_other);
-        }
-    }
-    m_collisions.clear();
 }

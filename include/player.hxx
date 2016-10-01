@@ -12,7 +12,7 @@ public:
     Player();
     ~Player();
 
-    void onCollision(Collidable* collidable);
+    void onCollision(Collidable* collidable, Axis axis);
     void handleInput(const std::string& input);
 };
 

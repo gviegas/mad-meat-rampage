@@ -28,6 +28,6 @@ inline std::string getBasePath() {
 }
 
 #endif
-}
+} // namespace aux
 
 #endif

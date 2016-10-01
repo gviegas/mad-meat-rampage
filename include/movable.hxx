@@ -23,16 +23,10 @@ public:
         m_pos += vec;
     }
 
-    //void jump(float height) {
-    //   m_oldPos = m_pos;
-    //   if(height > 0) { move({0.0, -height}); }
-    //   else { move({0.0, height}); }
-    //}
-
-    void jump(float height) {
+    void jump(float impulse) {
        m_oldPos = m_pos;
-       if(height > 0) { addVelocity({0.0, -height}); }
-       else { addVelocity({0.0, height}); }
+       if(impulse > 0) { addVelocity({0.0, -impulse}); }
+       else { addVelocity({0.0, impulse}); }
     }
 
     void changeDirection(Direction dir) { m_dir = dir; m_dirChanged = true; }
@@ -50,7 +44,7 @@ protected:
     sf::Vector2f m_speed;
     sf::Vector2f m_acceleration;
     sf::Vector2f m_velocity;
-    float m_jumpHeight;
+    float m_impulse;
 };
 
 #endif

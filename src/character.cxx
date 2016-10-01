@@ -6,10 +6,9 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <cmath>
 
-Character::Character(sf::Vector2f startPos): GameBeing(startPos) {
-    m_condition = Condition::None;
-}
+Character::Character(sf::Vector2f startPos): GameBeing(startPos) {}
 Character::~Character() {}
 
 void Character::loadConf(const std::string& fileName) {
@@ -36,35 +35,32 @@ void Character::loadConf(const std::string& fileName) {
                 float x, y;
                 sstream >> x >> y;
                 m_speed = {x, y};
-            } else if(attr == "JUMP") {
-                float height;
-                sstream >> height;
-                m_jumpHeight = height;
+            } else if(attr == "IMPULSE") {
+                sstream >> m_impulse;
             }
         }
         file.close();
     }
 }
 
-// todo: have a way to know which kind of collision happened -
-// a vertical or a horizontal one - to know which logic to apply.
-// maybe sort collisions on check...
-void Character::onTileCollision(sf::FloatRect tileRect) {
-    // test block
-    m_condition = Condition::None;
-    setVelocity({0.0, 0.0});
-    if(m_pos.y < tileRect.top) {
-        setPosition({m_pos.x, tileRect.top - m_bBox.height});
-    } else if(m_pos.y > tileRect.top) {
-        setPosition({m_pos.x, tileRect.top + tileRect.height});
+void Character::onTileCollision(sf::FloatRect tileRect, Axis axis) {
+    if(axis == Axis::Y) {
+        setVelocity({m_velocity.x, 0.0});
+        if(m_pos.y < tileRect.top) {
+            setPosition({m_pos.x, tileRect.top - m_bBox.height});
+            m_action = Action::None;
+        } else if(m_pos.y > tileRect.top) {
+            setPosition({m_pos.x, tileRect.top + tileRect.height});
+            m_action = Action::Jump;
+        }
+    } else if(axis == Axis::X) {
+        setVelocity({0.0, m_velocity.y});
+        if(m_pos.x < tileRect.left) {
+            setPosition({tileRect.left - m_bBox.width, m_pos.y}); 
+        } else if(m_pos.x > tileRect.left) {
+            setPosition({tileRect.left + tileRect.width, m_pos.y});
+        }
     }
-    //if(m_pos.x < tileRect.left) { 
-    //    setPosition({tileRect.left - m_bBox.width, m_pos.y}); 
-    //} else if(m_pos.x > tileRect.left) {
-    //    setPosition({tileRect.left + tileRect.width, m_pos.y});
-    //}
-    //std::cout << "collided!" << std::endl;
-    // end test
 }
 
 void Character::update(sf::RenderWindow* screen) {
@@ -73,14 +69,11 @@ void Character::update(sf::RenderWindow* screen) {
     //    m_dirChanged = false;
     //    m_sprite.scale({-1.0, 1.0});
     //} else { 
-    //    accelerate({0.0, 16.0});
-    //    move(m_acceleration);
-    //    m_sprite.setPosition(m_pos);
-    //    m_bBox.left = m_pos.x;
-    //    m_bBox.top = m_pos.y;
-    //    setAcceleration({0.0, 0.0});
     //}
     // end testing
+    
+    if(m_velocity.y) { m_action = Action::Jump; } // note: it's a float...
+
     move(m_velocity);
     accelerate({0.0, 0.5});
     addVelocity(m_acceleration);
