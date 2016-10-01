@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <cmath>
 
 Character::Character(sf::Vector2f startPos): GameBeing(startPos) {}
 Character::~Character() {}
@@ -34,23 +35,32 @@ void Character::loadConf(const std::string& fileName) {
                 float x, y;
                 sstream >> x >> y;
                 m_speed = {x, y};
+            } else if(attr == "IMPULSE") {
+                sstream >> m_impulse;
             }
         }
         file.close();
     }
 }
 
-// todo: vertical collision...
-void Character::onTileCollision(sf::FloatRect tileRect) {
-    // test block
-    if(m_pos.x < tileRect.left) { 
-        setPosition({tileRect.left - m_bBox.width, m_pos.y}); 
+void Character::onTileCollision(sf::FloatRect tileRect, Axis axis) {
+    if(axis == Axis::Y) {
+        setVelocity({m_velocity.x, 0.0});
+        if(m_pos.y < tileRect.top) {
+            setPosition({m_pos.x, tileRect.top - m_bBox.height});
+            m_action = Action::None;
+        } else if(m_pos.y > tileRect.top) {
+            setPosition({m_pos.x, tileRect.top + tileRect.height});
+            m_action = Action::Jump;
+        }
+    } else if(axis == Axis::X) {
+        setVelocity({0.0, m_velocity.y});
+        if(m_pos.x < tileRect.left) {
+            setPosition({tileRect.left - m_bBox.width, m_pos.y}); 
+        } else if(m_pos.x > tileRect.left) {
+            setPosition({tileRect.left + tileRect.width, m_pos.y});
+        }
     }
-    else if(m_pos.x > tileRect.left) {
-        setPosition({tileRect.left + tileRect.width, m_pos.y});
-    }
-    //std::cout << "collided!" << std::endl;
-    // end test
 }
 
 void Character::update(sf::RenderWindow* screen) {
@@ -59,11 +69,18 @@ void Character::update(sf::RenderWindow* screen) {
     //    m_dirChanged = false;
     //    m_sprite.scale({-1.0, 1.0});
     //} else { 
-        m_sprite.setPosition(m_pos);
-        m_bBox.left = m_pos.x;
-        m_bBox.top = m_pos.y;
     //}
     // end testing
+    
+    if(m_velocity.y) { m_action = Action::Jump; } // note: it's a float...
+
+    move(m_velocity);
+    accelerate({0.0, 0.5});
+    addVelocity(m_acceleration);
+    setAcceleration({0.0, 0.0});
+    m_sprite.setPosition(m_pos);
+    m_bBox.left = m_pos.x;
+    m_bBox.top = m_pos.y;
 }
 
 void Character::draw(sf::RenderWindow* screen) {

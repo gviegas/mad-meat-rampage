@@ -7,28 +7,8 @@
 
 #include "tile_map.hxx"
 #include "player.hxx"
+#include "collision_system.hxx"
 #include "InputManager.h"
-#include <vector>
-
-// todo: collision handling is in the manager for now
-// gotta move out to its on manager class...
-
-enum class CollisionTarget { Tile = 0, Collidable };
-
-struct CollisionData {
-    CollisionData(Collidable* collidable, Collidable* other):
-      m_collidable(collidable), m_other(other) {}
-    CollisionData(Collidable* collidable, sf::FloatRect tileRect):
-      m_collidable(collidable), m_tileRect(tileRect) {}
-      
-    Collidable* m_collidable;
-    union {
-        sf::FloatRect m_tileRect;
-        Collidable* m_other;
-    };
-};
-
-using Collisions = std::vector<std::pair<CollisionTarget, CollisionData>>;
 
 class Manager {
 public:
@@ -40,13 +20,10 @@ public:
     void update(sf::RenderWindow* screen);
     void draw(sf::RenderWindow* screen);
 private:
-    bool isColliding(Collidable* collidable, sf::FloatRect tileRect);
-    bool isColliding(Collidable* collidA, Collidable* collidB);
-    void checkCollisions(Collidable* collidable);
-    void resolveCollisions();
-    Collisions m_collisions;
     TileMap* m_map;
     Player m_player;
+    Collidables m_collidables;
+    CollisionSystem m_collisionSystem;
     cgf::InputManager* m_inputs;
 };
 

@@ -14,8 +14,8 @@ public:
 
     void loadConf(const std::string& fileName);
 
-    void onTileCollision(sf::FloatRect tileRect);
-    virtual void onCollision(Collidable* collidable) = 0;
+    void onTileCollision(sf::FloatRect tileRect, Axis axis);
+    virtual void onCollision(Collidable* collidable, Axis axis) = 0;
 
     void update(sf::RenderWindow* screen);
     void draw(sf::RenderWindow* screen);
