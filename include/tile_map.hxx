@@ -20,7 +20,7 @@ public:
     void loadConf(const std::string& fileName);
     void loadMap(const std::string& fileName);
 
-    void update(sf::RenderWindow* screen);
+    void update(double updateInterval);
     void draw(sf::RenderWindow* screen);
 private:
     TileSet m_tileSet;

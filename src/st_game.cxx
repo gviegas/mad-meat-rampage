@@ -27,9 +27,8 @@ void STGame::handleEvents(cgf::Game* game) {
 }
 
 void STGame::update(cgf::Game* game) {
-    sf::RenderWindow* screen = game->getScreen();
-    m_map.update(screen);
-    m_manager.update(screen);
+    m_map.update(game->getUpdateInterval());
+    m_manager.update(game->getUpdateInterval());
 }
 void STGame::draw(cgf::Game* game) {
     sf::RenderWindow* screen = game->getScreen();

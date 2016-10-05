@@ -28,8 +28,8 @@ void Manager::handleEvents() {
     }
 }
 
-void Manager::update(sf::RenderWindow* screen) {
-    m_player.update(screen);
+void Manager::update(double updateInterval) {
+    m_player.update(updateInterval);
     m_collisionSystem.checkCollisions(&m_player, m_collidables, m_map);
     m_collisionSystem.resolveCollisions();
 }

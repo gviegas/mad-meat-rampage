@@ -63,7 +63,7 @@ void Character::onTileCollision(sf::FloatRect tileRect, Axis axis) {
     }
 }
 
-void Character::update(sf::RenderWindow* screen) {
+void Character::update(double updateInterval) {
     // testing block
     //if(m_dirChanged) { 
     //    m_dirChanged = false;
@@ -74,13 +74,24 @@ void Character::update(sf::RenderWindow* screen) {
     
     if(m_velocity.y) { m_action = Action::Jump; } // note: it's a float...
 
-    move(m_velocity);
-    accelerate({0.0, 0.5});
+    // move(m_velocity);
+    // accelerate({0.0, 0.5});
+    // addVelocity(m_acceleration);
+    // setAcceleration({0.0, 0.0});
+    // m_sprite.setPosition(m_pos);
+    // m_bBox.left = m_pos.x;
+    // m_bBox.top = m_pos.y;
+
+    float delta = (float)(updateInterval / 1000);
+
+    move(m_velocity * delta);
+    accelerate({0.0, 300.0 * delta});
     addVelocity(m_acceleration);
     setAcceleration({0.0, 0.0});
     m_sprite.setPosition(m_pos);
     m_bBox.left = m_pos.x;
     m_bBox.top = m_pos.y;
+
 }
 
 void Character::draw(sf::RenderWindow* screen) {

@@ -96,7 +96,8 @@ void TileMap::loadMap(const std::string& fileName) {
 
 }
 
-void TileMap::update(sf::RenderWindow* screen) {}
+void TileMap::update(double updateInterval) {}
+
 void TileMap::draw(sf::RenderWindow* screen) {
     screen->draw(m_bg);
     // todo: culling (won't be needed if the map and the screen

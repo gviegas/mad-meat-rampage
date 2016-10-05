@@ -16,9 +16,11 @@ void Player::onCollision(Collidable* collidable, Axis axis) {}
 
 void Player::handleInput(const std::string& input) {
     if(input == GameInput::Left) {
+        //if(m_action == Action::Jump) { return; }
         if(m_dir != Direction::Left) { changeDirection(Direction::Left); }
         move(Direction::Left); 
     } else if(input == GameInput::Right) {
+        //if(m_action == Action::Jump) { return; }
         if(m_dir != Direction::Right) { changeDirection(Direction::Right); }
         move(Direction::Right); 
     } else if(input == GameInput::Jump) {

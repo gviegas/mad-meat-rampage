@@ -17,7 +17,7 @@ public:
 
     void init(TileMap* map);
     void handleEvents();
-    void update(sf::RenderWindow* screen);
+    void update(double updateInterval);
     void draw(sf::RenderWindow* screen);
 private:
     TileMap* m_map;
