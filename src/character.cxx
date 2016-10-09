@@ -89,6 +89,7 @@ void Character::update(double updateInterval) {
     addVelocity(m_acceleration);
     setAcceleration({0.0, 0.0});
     m_sprite.setPosition(m_pos);
+    // todo: only works if bbox == dimension - correct this
     m_bBox.left = m_pos.x;
     m_bBox.top = m_pos.y;
 

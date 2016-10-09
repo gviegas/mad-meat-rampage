@@ -5,10 +5,23 @@
 #include "manager.hxx"
 
 Manager::Manager(): m_map(nullptr) {}
-Manager::~Manager() {}
+Manager::~Manager() {
+    for(auto& iter : m_objects) { delete iter; }
+    m_objects.clear();
+    for(auto& iter : m_beings) { delete iter; }
+    m_beings.clear();
+}
 
 void Manager::init(TileMap* map) {
     m_map = map;
+
+    // test block
+    GameObject* trap1 = new Trap({256.0, 600.0});
+    ((Trap*)trap1)->loadConf("data/confs/trap1.conf");
+    m_objects.emplace_back(trap1);
+    m_collidables.emplace_back(trap1);
+    //m_objects.emplace_back(new Trap({500.0, 500.0}));
+    // end test
 
     m_inputs = cgf::InputManager::instance();
     m_inputs->addKeyInput(GameInput::Left, sf::Keyboard::Left);
@@ -29,11 +42,16 @@ void Manager::handleEvents() {
 }
 
 void Manager::update(double updateInterval) {
+    for(auto& iter : m_objects) { iter->update(updateInterval); }
+    for(auto& iter : m_beings) { iter->update(updateInterval); }
     m_player.update(updateInterval);
+
     m_collisionSystem.checkCollisions(&m_player, m_collidables, m_map);
     m_collisionSystem.resolveCollisions();
 }
 
 void Manager::draw(sf::RenderWindow* screen) {
+    for(auto& iter : m_objects) { iter->draw(screen); }
+    for(auto& iter : m_beings) { iter->draw(screen); }
     m_player.draw(screen);
 }

@@ -12,7 +12,11 @@ Player::Player(): Character({0, 0}) { // todo: do something with this parameter
 }
 Player::~Player() {}
 
-void Player::onCollision(Collidable* collidable, Axis axis) {}
+void Player::onCollision(Collidable* collidable, Axis axis) {
+    if(collidable->getType() == ObjectType::Trap) {
+        m_action = Action::Die;
+    }
+}
 
 void Player::handleInput(const std::string& input) {
     if(input == GameInput::Left) {

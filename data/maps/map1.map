@@ -14,7 +14,7 @@ TILE 3 17 8
 TILE 1 15 11
 TILE 3 16 11
 TILE 2 17 11
-# walls
+# test walls
 TILE 0 0 0
 TILE 0 0 1
 TILE 0 0 2
