@@ -6,6 +6,7 @@
 #define CHARACTER_HXX
 
 #include "game_being.hxx"
+#include "animation.hxx"
 
 class Character: public GameBeing {
 public:
@@ -19,6 +20,8 @@ public:
 
     void update(double updateInterval);
     void draw(sf::RenderWindow* screen);
+protected:
+    Animation m_animation;
 };
 
 #endif

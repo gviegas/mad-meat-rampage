@@ -69,9 +69,13 @@ void Animation::play() {
     }
     m_currentRect.left = m_frameRange.x++ * m_currentRect.width;
     m_sprite->setTextureRect(m_currentRect);
+
 }
 
 void Animation::stop() {}
 void Animation::restart() {}
 
 void Animation::setLoop(bool loop) { m_isLooping = loop; }
+
+const std::string& Animation::getCurrentAnim() const { return m_currentAnim; }
+const sf::Vector2i& Animation::getFrameRange() const { return m_frameRange; }

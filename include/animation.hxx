@@ -31,6 +31,9 @@ public:
     void stop();
     void restart();
     void setLoop(bool loop);
+    
+    const std::string& getCurrentAnim() const;
+    const sf::Vector2i& getFrameRange() const;
 private:
     Animations m_animations;
     sf::Sprite* m_sprite;
