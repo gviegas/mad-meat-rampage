@@ -21,11 +21,10 @@ bool CollisionSystem::isColliding(Collidable* collidA,
       collidB->getBBox(), intersection));
 }
 
+// todo: a better algorithm to choose the right collision axis
 Axis CollisionSystem::getCollisionAxis(sf::FloatRect& intersection) {
-    //test block
     return (intersection.width < intersection.height ?
       Axis::X : Axis::Y);
-    // end test
 }
 
 void CollisionSystem::checkTileCollisions(Collidable* collidable, 
@@ -48,9 +47,19 @@ void CollisionSystem::checkTileCollisions(Collidable* collidable,
     }
 }
 
-// todo: check collisions between collidables
 void CollisionSystem::checkCollidableCollisions(Collidable* collidable, 
-  Collidables& collidables) {}
+  Collidables& collidables)
+{
+    for(auto& iter : collidables) {
+        sf::FloatRect intersection;
+        if(isColliding(collidable, iter, intersection)) {
+            CollisionData data {collidable, iter, 
+              getCollisionAxis(intersection)};
+            m_collisions.emplace_back(std::make_pair(
+              CollisionTarget::Collidable, data));
+        }
+    }
+}
 
 void CollisionSystem::checkCollisions(Collidable* collidable,
   Collidables& collidables, TileMap* map) 

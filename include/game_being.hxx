@@ -19,7 +19,10 @@ public:
     }
     virtual ~GameBeing() {}
     
-    virtual void update(sf::RenderWindow* screen) = 0;
+    Action getAction() { return m_action; }
+    void setAction(Action action) {  m_action = action; }
+
+    virtual void update(double updateInterval) = 0;
 protected:
     Action m_action;
 };

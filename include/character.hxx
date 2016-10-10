@@ -6,6 +6,7 @@
 #define CHARACTER_HXX
 
 #include "game_being.hxx"
+#include "animation.hxx"
 
 class Character: public GameBeing {
 public:
@@ -17,8 +18,10 @@ public:
     void onTileCollision(sf::FloatRect tileRect, Axis axis);
     virtual void onCollision(Collidable* collidable, Axis axis) = 0;
 
-    void update(sf::RenderWindow* screen);
+    void update(double updateInterval);
     void draw(sf::RenderWindow* screen);
+protected:
+    Animation m_animation;
 };
 
 #endif

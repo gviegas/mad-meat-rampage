@@ -12,19 +12,23 @@ public:
     Movable() {}
     ~Movable() {}
 
-    void move(Direction dir) {
-        m_oldPos = m_pos;
-        if(dir == Direction::Left) { m_pos -= m_speed; }
-        else { m_pos += m_speed; }
-    }
-
     void move(sf::Vector2f vec) {
         m_oldPos = m_pos;
         m_pos += vec;
     }
 
+    // void move(Direction dir) {
+    //     m_oldPos = m_pos;
+    //     if(dir == Direction::Left) { m_pos -= m_speed; }
+    //     else { m_pos += m_speed; }
+    // }
+
+    void move(Direction dir) {
+        if(dir == Direction::Left) { accelerate({-m_speed.x, 0.0}); }
+        else { accelerate({m_speed.x, 0.0}); }
+    }
+
     void jump(float impulse) {
-       m_oldPos = m_pos;
        if(impulse > 0) { addVelocity({0.0, -impulse}); }
        else { addVelocity({0.0, impulse}); }
     }
