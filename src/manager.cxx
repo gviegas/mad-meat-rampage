@@ -10,6 +10,7 @@ Manager::~Manager() {
     m_objects.clear();
     for(auto& iter : m_beings) { delete iter; }
     m_beings.clear();
+    m_collidables.clear();
 }
 
 void Manager::init(TileMap* map) {
@@ -20,7 +21,11 @@ void Manager::init(TileMap* map) {
     ((Trap*)trap1)->loadConf("data/confs/trap1.conf");
     m_objects.emplace_back(trap1);
     m_collidables.emplace_back(trap1);
-    //m_objects.emplace_back(new Trap({500.0, 500.0}));
+
+    GameBeing* enemy = new Enemy();
+    ((Enemy*)enemy)->loadConf("data/confs/enemy.conf");
+    m_beings.emplace_back(enemy);
+    m_collidables.emplace_back(enemy);
     // end test
 
     m_inputs = cgf::InputManager::instance();
@@ -46,6 +51,10 @@ void Manager::update(double updateInterval) {
     for(auto& iter : m_beings) { iter->update(updateInterval); }
     m_player.update(updateInterval);
 
+    // no collision check for traps...
+    for(auto& iter : m_beings) { 
+        m_collisionSystem.checkCollisions(iter, m_collidables, m_map);
+    }
     m_collisionSystem.checkCollisions(&m_player, m_collidables, m_map);
     m_collisionSystem.resolveCollisions();
 }

@@ -8,6 +8,7 @@
 #include "tile_map.hxx"
 #include "player.hxx"
 #include "trap.hxx"
+#include "enemy.hxx"
 #include "collision_system.hxx"
 #include "InputManager.h"
 

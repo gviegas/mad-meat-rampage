@@ -12,8 +12,6 @@ Character::Character(sf::Vector2f startPos): GameBeing(startPos),
   m_animation(&m_sprite)
 {
     // test block
-    // would be nice to read this info from the conf file...
-    m_animation.loadAnimation("data/animations/player.anim");
     m_animation.setLoop(true);
     // end test
 }
@@ -45,6 +43,10 @@ void Character::loadConf(const std::string& fileName) {
                 m_speed = {x, y};
             } else if(attr == "IMPULSE") {
                 sstream >> m_impulse;
+            } else if(attr == "ANIMATION") {
+                std::string animFile;
+                sstream >> animFile;
+                m_animation.loadAnimation(animFile);
             }
         }
         file.close();
@@ -69,6 +71,7 @@ void Character::onTileCollision(sf::FloatRect tileRect, Axis axis) {
             setPosition({tileRect.left + tileRect.width, m_pos.y});
         }
         m_action = m_velocity.y ? Action::Jump : Action::None;
+       //std::cout << "collided on x!: " << (int)m_type << std::endl; // testing
     }
 }
 

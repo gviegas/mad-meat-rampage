@@ -13,7 +13,9 @@ Player::Player(): Character({0, 0}) { // todo: do something with this parameter
 Player::~Player() {}
 
 void Player::onCollision(Collidable* collidable, Axis axis) {
-    if(collidable->getType() == ObjectType::Trap) {
+    if(collidable->getType() == ObjectType::Trap ||
+      collidable->getType() == ObjectType::Enemy) 
+    {
         m_action = Action::Die;
     }
 }
@@ -21,11 +23,11 @@ void Player::onCollision(Collidable* collidable, Axis axis) {
 void Player::handleInput(const std::string& input) {
     if(input == GameInput::Left) {
         //if(m_action == Action::Jump) { return; }
-        if(m_dir != Direction::Left) { changeDirection(Direction::Left); }
+        if(m_dir != Direction::Left) { changeDirection(); }
         move(Direction::Left); 
     } else if(input == GameInput::Right) {
         //if(m_action == Action::Jump) { return; }
-        if(m_dir != Direction::Right) { changeDirection(Direction::Right); }
+        if(m_dir != Direction::Right) { changeDirection(); }
         move(Direction::Right); 
     } else if(input == GameInput::Jump) {
         if(m_action == Action::Jump) { return; }
@@ -34,6 +36,7 @@ void Player::handleInput(const std::string& input) {
     }
 }
 
+// note: the animate method probably can be done in the Character class
 void Player::animate() {
     // test block
     // just testing die animation/state - have to finish animation class...
