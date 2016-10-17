@@ -17,13 +17,13 @@ void Manager::init(TileMap* map) {
     m_map = map;
 
     // test block
-    GameObject* trap1 = new Trap({256.0, 600.0});
+    GameObject* trap1 = new Trap({160.0, 580.0});
     ((Trap*)trap1)->loadConf("data/confs/trap1.conf");
     m_objects.emplace_back(trap1);
     m_collidables.emplace_back(trap1);
 
     GameBeing* enemy = new Enemy();
-    ((Enemy*)enemy)->loadConf("data/confs/enemy.conf");
+    //((Enemy*)enemy)->loadConf("data/confs/enemy1.conf");
     m_beings.emplace_back(enemy);
     m_collidables.emplace_back(enemy);
     // end test

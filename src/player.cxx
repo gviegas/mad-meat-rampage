@@ -8,7 +8,7 @@ Player::Player(): Character({0, 0}) { // todo: do something with this parameter
     loadConf("data/confs/player.conf");
     m_type = ObjectType::Player;
     m_dir = Direction::Right;
-    setPosition({400.0, 400.0}); // todo: get start position from map
+    setPosition({448.0, 448.0}); // todo: get start position from map
 }
 Player::~Player() {}
 
