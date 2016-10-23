@@ -16,6 +16,8 @@ public:
     const sf::Vector2f& getPlayerStart() const;
     float getGravity() const;
     const sf::Vector2u& getTileSize() const;
+    const sf::Vector2u& getGridSize() const;
+    bool checkTile(const sf::Vector2u& gridPos);
 
     void loadConf(const std::string& fileName);
     void loadMap(const std::string& fileName);

@@ -44,6 +44,8 @@ public:
     void accelerate(const sf::Vector2f& vec) { m_acceleration += vec; }
     void setVelocity(sf::Vector2f vec) { m_velocity = vec; }
     void addVelocity(const sf::Vector2f& vec) { m_velocity += vec; }
+
+    const sf::Vector2f& getPosition() { return m_pos; }
 protected:
     Direction m_dir;
     bool m_dirChanged;

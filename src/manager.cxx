@@ -16,11 +16,16 @@ Manager::~Manager() {
 void Manager::init(TileMap* map) {
     m_map = map;
 
-    // test block
-    GameObject* trap1 = new Trap({160.0, 580.0});
-    ((Trap*)trap1)->loadConf("data/confs/trap1.conf");
-    m_objects.emplace_back(trap1);
-    m_collidables.emplace_back(trap1);
+    // test block 
+    m_ai.createGraph(map);
+    //m_ai.search({700, 959}, {250, 959});
+    // end test
+
+    // // test block
+    // GameObject* trap1 = new Trap({160.0, 580.0});
+    // ((Trap*)trap1)->loadConf("data/confs/trap1.conf");
+    // m_objects.emplace_back(trap1);
+    // m_collidables.emplace_back(trap1);
 
     GameBeing* enemy = new Enemy();
     //((Enemy*)enemy)->loadConf("data/confs/enemy1.conf");
@@ -57,6 +62,8 @@ void Manager::update(double updateInterval) {
     }
     m_collisionSystem.checkCollisions(&m_player, m_collidables, m_map);
     m_collisionSystem.resolveCollisions();
+
+    m_ai.update(updateInterval, (Enemy*)m_beings.front(), &m_player); // testing
 }
 
 void Manager::draw(sf::RenderWindow* screen) {

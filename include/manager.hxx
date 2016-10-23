@@ -10,6 +10,7 @@
 #include "trap.hxx"
 #include "enemy.hxx"
 #include "collision_system.hxx"
+#include "ai.hxx"
 #include "InputManager.h"
 
 using GameObjects = std::vector<GameObject*>;
@@ -31,6 +32,7 @@ private:
     GameBeings m_beings;
     Collidables m_collidables;
     CollisionSystem m_collisionSystem;
+    AI m_ai;
     cgf::InputManager* m_inputs;
 };
 
