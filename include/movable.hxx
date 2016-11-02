@@ -46,6 +46,7 @@ public:
     void addVelocity(const sf::Vector2f& vec) { m_velocity += vec; }
 
     const sf::Vector2f& getPosition() { return m_pos; }
+    Direction getDirection() { return m_dir; }
 protected:
     Direction m_dir;
     bool m_dirChanged;

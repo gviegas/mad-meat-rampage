@@ -63,7 +63,7 @@ void Manager::update(double updateInterval) {
     m_collisionSystem.checkCollisions(&m_player, m_collidables, m_map);
     m_collisionSystem.resolveCollisions();
 
-    m_ai.update(updateInterval, (Enemy*)m_beings.front(), &m_player); // testing
+    m_ai.act((Character*)m_beings.front(), &m_player); // testing
 }
 
 void Manager::draw(sf::RenderWindow* screen) {

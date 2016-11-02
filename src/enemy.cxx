@@ -9,7 +9,7 @@ Enemy::Enemy(): Character({0, 0}) { // todo: do something with this parameter
     loadConf("data/confs/enemy1.conf");
     m_type = ObjectType::Enemy;
     m_dir = Direction::Left;
-    setPosition({1000, 400}); // todo: make the start pos random perhaps?
+    setPosition({600, 400}); // todo: make the start pos random perhaps?
     srand(time(NULL));
 }
 Enemy::~Enemy() {}
