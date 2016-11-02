@@ -17,6 +17,7 @@ public:
         m_pos += vec;
     }
 
+    // Immediate movement
     // void move(Direction dir) {
     //     m_oldPos = m_pos;
     //     if(dir == Direction::Left) { m_pos -= m_speed; }

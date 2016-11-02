@@ -23,6 +23,7 @@ private:
     std::vector<Edge*> search(const sf::Vector2u& from, const sf::Vector2u& to);
     std::unordered_map<Node*, std::pair<Node*, Edge*>> m_path;
     Graph m_graph;
+    Movement m_lastMove;
 };
 
 #endif

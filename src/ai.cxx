@@ -4,7 +4,7 @@
 
 #include "ai.hxx"
 
-AI::AI() {}
+AI::AI() { m_lastMove = Movement::Idle; }
 AI::~AI() {}
 
 void AI::createGraph(TileMap* map) {
@@ -102,10 +102,21 @@ void AI::act(Character* actor, Character* target) {
     // std::cout << std::endl;
     // end test
 
+    if(actor->getAction() == Action::Jump) {
+        if(m_lastMove == Movement::JumpLeft) {
+            //actor->move(Direction::Left);
+            actor->accelerate({-1, 0});
+        } else if(m_lastMove == Movement::JumpRight) {
+            //actor->move(Direction::Right);
+            actor->accelerate({1, 0});
+        }
+    }
+
     if(steps.size()) {
         Edge* nextStep = steps.back();
         Movement nextMove = nextStep->m_move;
         std::cout << "next move " << (int)nextStep->m_move << std::endl;
+        
         switch(nextMove) {
             case Movement::Left:
                 if(actor->getDirection() != Direction::Left) { 
@@ -123,19 +134,24 @@ void AI::act(Character* actor, Character* target) {
                 if(actor->getDirection() != Direction::Left) {
                     actor->changeDirection();
                 }
-                actor->move(Direction::Left);
+                actor->setAction(Action::Jump);
                 actor->jump(300); // testing
+                //actor->move(Direction::Left);
                 break;
             case Movement::JumpRight:
                 if(actor->getDirection() != Direction::Right) {
                     actor->changeDirection();
                 }
-                actor->move(Direction::Right);
+                actor->setAction(Action::Jump);
                 actor->jump(300); // testing
+                //actor->move(Direction::Right);
                 break;
             case Movement::Jump:
+                actor->setAction(Action::Jump);
                 actor->jump(300); // testing
                 break;
         }
+
+        m_lastMove = nextMove;
     }
 }
