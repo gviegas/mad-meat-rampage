@@ -14,7 +14,6 @@ public:
 
     void onCollision(Collidable* collidable, Axis axis);
     void handleInput(const std::string& input);
-    void animate();
     void update(double updateInterval);
 };
 

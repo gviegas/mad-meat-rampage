@@ -17,6 +17,7 @@ public:
         m_pos += vec;
     }
 
+    // Immediate movement
     // void move(Direction dir) {
     //     m_oldPos = m_pos;
     //     if(dir == Direction::Left) { m_pos -= m_speed; }
@@ -33,13 +34,20 @@ public:
        else { addVelocity({0.0, impulse}); }
     }
 
-    void changeDirection(Direction dir) { m_dir = dir; m_dirChanged = true; }
+    void changeDirection() {
+        m_dir = m_dir == Direction::Left ?
+          Direction::Right : Direction::Left;
+        m_dirChanged = true; 
+    }
     void setPosition(sf::Vector2f vec) {  m_oldPos = m_pos; m_pos = vec; }
     void setSpeed(sf::Vector2f vec) { m_speed = vec; }
     void setAcceleration(sf::Vector2f vec) { m_acceleration = vec; }
     void accelerate(const sf::Vector2f& vec) { m_acceleration += vec; }
     void setVelocity(sf::Vector2f vec) { m_velocity = vec; }
     void addVelocity(const sf::Vector2f& vec) { m_velocity += vec; }
+
+    const sf::Vector2f& getPosition() { return m_pos; }
+    Direction getDirection() { return m_dir; }
 protected:
     Direction m_dir;
     bool m_dirChanged;

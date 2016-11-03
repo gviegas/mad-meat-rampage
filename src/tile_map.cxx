@@ -28,6 +28,11 @@ sf::FloatRect TileMap::getTileBBox(const sf::Vector2u& pos) { // todo: return re
 const sf::Vector2f& TileMap::getPlayerStart() const { return m_playerStart; }
 float TileMap::getGravity() const { return m_gravity; }
 const sf::Vector2u& TileMap::getTileSize() const { return m_tileSet.getTileSize(); }
+const sf::Vector2u& TileMap::getGridSize() const { return m_tileSet.getGridSize(); }
+
+bool TileMap::checkTile(const sf::Vector2u& gridPos) { 
+    return (m_tileSet.getTile(gridPos) == nullptr ? false : true); 
+}
 
 void TileMap::loadConf(const std::string& fileName) {
     std::ifstream file;

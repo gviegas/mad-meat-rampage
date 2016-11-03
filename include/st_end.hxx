@@ -25,6 +25,12 @@ protected:
     STEnd() {}
 private:
     static STEnd m_this;
+    sf::Texture m_texture;
+    sf::Sprite m_bg;
+    sf::Font m_font;
+    sf::Text m_text;
+    cgf::InputManager* m_inputs;
+    bool m_initiated = false;
 };
 
 #endif;

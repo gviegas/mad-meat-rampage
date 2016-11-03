@@ -9,6 +9,8 @@
 
 enum class ObjectType { Tile = 0, Player, Enemy, Trap, Door, Key };
 
+enum class Movement { Left = 0, Right, JumpLeft, JumpRight, Jump, Idle};
+
 // todo: remove this ns ffs
 namespace GameInput {
 static std::string Left = "Left";
