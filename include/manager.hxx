@@ -11,6 +11,7 @@
 #include "enemy.hxx"
 #include "collision_system.hxx"
 #include "ai.hxx"
+#include "GameState.h"
 #include "InputManager.h"
 
 using GameObjects = std::vector<GameObject*>;
@@ -22,12 +23,13 @@ public:
     ~Manager();
 
     void init(TileMap* map);
+    void destroy();
     void handleEvents();
-    void update(double updateInterval);
+    void update(cgf::Game* game);
     void draw(sf::RenderWindow* screen);
 private:
     TileMap* m_map;
-    Player m_player;
+    Player* m_player;
     GameObjects m_objects;
     GameBeings m_beings;
     Collidables m_collidables;

@@ -21,6 +21,7 @@ void Player::onCollision(Collidable* collidable, Axis axis) {
 }
 
 void Player::handleInput(const std::string& input) {
+    if(m_action == Action::Die) { return; }
     if(input == GameInput::Left) {
         //if(m_action == Action::Jump) { return; }
         if(m_dir != Direction::Left) { changeDirection(); }
@@ -36,38 +37,6 @@ void Player::handleInput(const std::string& input) {
     }
 }
 
-// note: the animate method probably can be done in the Character class
-void Player::animate() {
-    // test block
-    // just testing die animation/state - have to finish animation class...
-    if(m_animation.getCurrentAnim() == "Die" && 
-      m_animation.getFrameRange().x == m_animation.getFrameRange().y) 
-    { 
-        return; 
-    } 
-    //m_animation.setLoop(true);
-    // end test
-    switch(m_action) {
-        case Action::None:
-            m_dir == Direction::Left ? m_animation.animate("Idle-Left")
-              : m_animation.animate("Idle-Right");
-            break;
-        case Action::Walk:
-            m_dir == Direction::Left ? m_animation.animate("Walk-Left")
-              : m_animation.animate("Walk-Right");
-            break;
-        case Action::Jump:
-            m_dir == Direction::Left ? m_animation.animate("Jump-Left")
-              : m_animation.animate("Jump-Right");
-            break;
-        case Action::Die:
-            m_animation.setLoop(false); // testing
-            m_animation.animate("Die");
-            break;
-    }
-}
-
 void Player::update(double updateInterval) {
     Character::update(updateInterval);
-    animate();
 }

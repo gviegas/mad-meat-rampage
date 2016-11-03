@@ -13,7 +13,6 @@ public:
     ~Enemy();
 
     void onCollision(Collidable* collidable, Axis axis);
-    void animate();
     void update(double updateInterval);
 };
 

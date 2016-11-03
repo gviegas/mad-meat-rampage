@@ -35,6 +35,7 @@ private:
     sf::Texture m_texture;
     Buttons m_buttons;
     cgf::InputManager* m_inputs;
+    bool m_initiated = false;
 };
 
 #endif;

@@ -30,6 +30,7 @@ private:
     sf::Font m_font;
     sf::Text m_text;
     cgf::InputManager* m_inputs;
+    bool m_initiated = false;
 };
 
 #endif

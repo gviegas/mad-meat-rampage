@@ -11,6 +11,8 @@
 STMenu STMenu::m_this;
 
 void STMenu::init() {
+    if(m_initiated) { return; }
+
     loadConf("data/confs/menu.conf");
     for(auto& iter : m_buttons) {
         iter.second.setTexture(m_texture);
@@ -20,7 +22,7 @@ void STMenu::init() {
     m_inputs->addMouseInput("Left-Click", sf::Mouse::Button::Left);
 }
 
-void STMenu::cleanup() {}
+void STMenu::cleanup() { m_initiated = true; }
 
 void STMenu::pause() {}
 void STMenu::resume() {}

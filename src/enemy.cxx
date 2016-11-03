@@ -9,7 +9,7 @@ Enemy::Enemy(): Character({0, 0}) { // todo: do something with this parameter
     loadConf("data/confs/enemy1.conf");
     m_type = ObjectType::Enemy;
     m_dir = Direction::Left;
-    setPosition({600, 400}); // todo: make the start pos random perhaps?
+    setPosition({940, 400}); // todo: make the start pos random perhaps?    
     srand(time(NULL));
 }
 Enemy::~Enemy() {}
@@ -20,38 +20,8 @@ void Enemy::onCollision(Collidable* collidable, Axis axis) {
     }
 }
 
-// note: the animate method probably can be done in the Character class
-void Enemy::animate() {
-    // test block
-    if(m_animation.getCurrentAnim() == "Die" && 
-      m_animation.getFrameRange().x == m_animation.getFrameRange().y)
-    {
-        return;
-    }
-    // end test
-    switch(m_action) {
-        case Action::None:
-            m_dir == Direction::Left ? m_animation.animate("Idle-Left")
-              : m_animation.animate("Idle-Right");
-            break;
-        case Action::Walk:
-            m_dir == Direction::Left ? m_animation.animate("Walk-Left")
-              : m_animation.animate("Walk-Right");
-            break;
-        case Action::Jump:
-            m_dir == Direction::Left ? m_animation.animate("Jump-Left")
-              : m_animation.animate("Jump-Right");
-            break;
-        case Action::Die:
-            m_animation.setLoop(false);
-            m_animation.animate("Die");
-            break;
-    }
-}
-
 void Enemy::update(double updateInterval) {
     Character::update(updateInterval);
-    animate();
     
     // // test block
     // //std::cout << "pos: " << m_pos.x << " " << m_pos.y <<

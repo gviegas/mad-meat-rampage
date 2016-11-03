@@ -3,9 +3,13 @@
 */
 
 #include "manager.hxx"
+#include "st_end.hxx"
 
 Manager::Manager(): m_map(nullptr) {}
-Manager::~Manager() {
+Manager::~Manager() {}
+
+void Manager::destroy() {
+    delete m_player;
     for(auto& iter : m_objects) { delete iter; }
     m_objects.clear();
     for(auto& iter : m_beings) { delete iter; }
@@ -15,17 +19,15 @@ Manager::~Manager() {
 
 void Manager::init(TileMap* map) {
     m_map = map;
-
-    // test block 
     m_ai.createGraph(map);
-    //m_ai.search({700, 959}, {250, 959});
-    // end test
 
-    // // test block
-    // GameObject* trap1 = new Trap({160.0, 580.0});
-    // ((Trap*)trap1)->loadConf("data/confs/trap1.conf");
-    // m_objects.emplace_back(trap1);
-    // m_collidables.emplace_back(trap1);
+    m_player = new Player();
+
+    // test block
+    GameObject* trap1 = new Trap({540.0, 780.0});
+    ((Trap*)trap1)->loadConf("data/confs/trap1.conf");
+    m_objects.emplace_back(trap1);
+    m_collidables.emplace_back(trap1);
 
     GameBeing* enemy = new Enemy();
     //((Enemy*)enemy)->loadConf("data/confs/enemy1.conf");
@@ -41,33 +43,61 @@ void Manager::init(TileMap* map) {
 
 void Manager::handleEvents() {
     if(m_inputs->testEvent(GameInput::Left)) { 
-        m_player.handleInput(GameInput::Left); 
+        m_player->handleInput(GameInput::Left); 
     }
     if(m_inputs->testEvent(GameInput::Right)) {
-        m_player.handleInput(GameInput::Right);
+        m_player->handleInput(GameInput::Right);
     }
     if(m_inputs->testEvent(GameInput::Jump)) {
-        m_player.handleInput(GameInput::Jump);
+        m_player->handleInput(GameInput::Jump);
     }
 }
 
-void Manager::update(double updateInterval) {
+void Manager::update(cgf::Game* game) {
+    double updateInterval = game->getUpdateInterval();
+    
+    // checking removals
+    if(m_player->toRemove()) {
+        game->changeState(STEnd::instance());
+        return;
+    }
+    for(auto iter = m_beings.begin(); iter != m_beings.end(); ++iter) {
+        if(((Character*)(*iter))->toRemove()) {
+            // bad choice of container...
+            for(auto iter2 = m_collidables.begin(); 
+              iter2 != m_collidables.end(); ++iter2)
+            {
+                if(*iter2 == *iter) {
+                    delete *iter;
+                    m_collidables.erase(iter2);
+                    m_beings.erase(iter);
+                    break;
+                }
+            }
+            break;
+        }
+    }
+
+    // updating entities
     for(auto& iter : m_objects) { iter->update(updateInterval); }
     for(auto& iter : m_beings) { iter->update(updateInterval); }
-    m_player.update(updateInterval);
+    m_player->update(updateInterval);
 
-    // no collision check for traps...
+    // processing collisions
     for(auto& iter : m_beings) { 
         m_collisionSystem.checkCollisions(iter, m_collidables, m_map);
     }
-    m_collisionSystem.checkCollisions(&m_player, m_collidables, m_map);
+    m_collisionSystem.checkCollisions(m_player, m_collidables, m_map);
     m_collisionSystem.resolveCollisions();
 
-    m_ai.act((Character*)m_beings.front(), &m_player); // testing
+    // finding paths
+    for(auto& iter : m_beings) {
+        m_ai.act((Character*)iter, m_player);
+    }
 }
 
 void Manager::draw(sf::RenderWindow* screen) {
     for(auto& iter : m_objects) { iter->draw(screen); }
     for(auto& iter : m_beings) { iter->draw(screen); }
-    m_player.draw(screen);
+    m_player->draw(screen);
 }

@@ -46,18 +46,18 @@ void AI::createGraph(TileMap* map) {
         m_graph.addEdges(&iter, edges);
     }
 
-    m_graph.print(); // debug
+    //m_graph.print(); // debug
 }
 
 std::vector<Edge*> AI::search(const sf::Vector2u& from, const sf::Vector2u& to) {
     Node* start = m_graph.getNode(from.x / 64, from.y / 64 + 1);
     Node* goal = m_graph.getNode(to.x / 64, to.y / 64 + 1);
     if(start == nullptr) {
-        std::cerr << "ERROR: no node at " << from.x / 64 <<
-          " " << from.y / 64 + 1<< std::endl;
+        //std::cerr << "ERROR: no node at " << from.x / 64 <<
+        //  " " << from.y / 64 + 1<< std::endl;
     } else if(goal == nullptr) {
-        std::cerr << "ERROR: no node at " << to.x / 64 <<
-          " " << to.y / 64 + 1 << std::endl;
+        //std::cerr << "ERROR: no node at " << to.x / 64 <<
+        //  " " << to.y / 64 + 1 << std::endl;
     } else {
         m_path.clear();
         std::queue<Node*> frontier;
@@ -115,8 +115,7 @@ void AI::act(Character* actor, Character* target) {
     if(steps.size()) {
         Edge* nextStep = steps.back();
         Movement nextMove = nextStep->m_move;
-        std::cout << "next move " << (int)nextStep->m_move << std::endl;
-        
+        //std::cout << "next move " << (int)nextStep->m_move << std::endl; // debug
         switch(nextMove) {
             case Movement::Left:
                 if(actor->getDirection() != Direction::Left) { 
@@ -151,7 +150,6 @@ void AI::act(Character* actor, Character* target) {
                 actor->jump(300); // testing
                 break;
         }
-
         m_lastMove = nextMove;
     }
 }

@@ -9,6 +9,8 @@
 STBegin STBegin::m_this;
 
 void STBegin::init() {
+    if(m_initiated) { return; }
+
     m_texture.loadFromFile("data/textures/begin.png");
     m_bg.setTexture(m_texture);
     m_font.loadFromFile("data/fonts/LiberationSans-Regular.ttf");
@@ -20,7 +22,7 @@ void STBegin::init() {
     m_inputs->addKeyInput("Quit", sf::Keyboard::Escape);
     m_inputs->addKeyInput("Enter", sf::Keyboard::Return);
 }
-void STBegin::cleanup() {}
+void STBegin::cleanup() { m_initiated = true; }
 
 void STBegin::pause() {}
 void STBegin::resume() {}

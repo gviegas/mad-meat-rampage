@@ -18,10 +18,14 @@ public:
     void onTileCollision(sf::FloatRect tileRect, Axis axis);
     virtual void onCollision(Collidable* collidable, Axis axis) = 0;
 
+    bool toRemove();
+    void animate();
+    
     void update(double updateInterval);
     void draw(sf::RenderWindow* screen);
 protected:
     Animation m_animation;
+    bool m_removal;
 };
 
 #endif

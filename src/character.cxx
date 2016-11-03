@@ -12,6 +12,7 @@ Character::Character(sf::Vector2f startPos): GameBeing(startPos),
   m_animation(&m_sprite)
 {
     // test block
+    m_removal = false;
     m_animation.setLoop(true);
     // end test
 }
@@ -75,6 +76,39 @@ void Character::onTileCollision(sf::FloatRect tileRect, Axis axis) {
     }
 }
 
+bool Character::toRemove() { return m_removal; }
+
+void Character::animate() {
+    // test block
+    // just testing die animation/state - have to finish animation class...
+    if(m_animation.getCurrentAnim() == "Die" && 
+      m_animation.getFrameRange().x == m_animation.getFrameRange().y) 
+    { 
+        m_removal = true;
+        return; 
+    }
+    //m_animation.setLoop(true);
+    // end test
+    switch(m_action) {
+        case Action::None:
+            m_dir == Direction::Left ? m_animation.animate("Idle-Left")
+              : m_animation.animate("Idle-Right");
+            break;
+        case Action::Walk:
+            m_dir == Direction::Left ? m_animation.animate("Walk-Left")
+              : m_animation.animate("Walk-Right");
+            break;
+        case Action::Jump:
+            m_dir == Direction::Left ? m_animation.animate("Jump-Left")
+              : m_animation.animate("Jump-Right");
+            break;
+        case Action::Die:
+            m_animation.setLoop(false); // testing
+            m_animation.animate("Die");
+            break;
+    }
+}
+
 // todo: there's some inconsistency with the character actions...
 // it should not be set only by the collision method... check the velocity here perhaps?
 void Character::update(double updateInterval) {
@@ -90,16 +124,20 @@ void Character::update(double updateInterval) {
     // m_bBox.left = m_pos.x;
     // m_bBox.top = m_pos.y;
 
-    float delta = (float)(updateInterval / 1000);
+    if(m_action != Action::Die) {
+        float delta = (float)(updateInterval / 1000);
 
-    move(m_velocity * delta);
-    accelerate({0.0, 300.0 * delta});
-    addVelocity(m_acceleration);
-    setAcceleration({0.0, 0.0});
-    m_sprite.setPosition(m_pos);
-    // todo: only works if bbox == dimension - correct this
-    m_bBox.left = m_pos.x;
-    m_bBox.top = m_pos.y;
+        move(m_velocity * delta);
+        accelerate({0.0, 300.0 * delta});
+        addVelocity(m_acceleration);
+        setAcceleration({0.0, 0.0});
+        m_sprite.setPosition(m_pos);
+        // todo: only works if bbox == dimension - correct this
+        m_bBox.left = m_pos.x;
+        m_bBox.top = m_pos.y;
+    }
+    
+    animate();
 }
 
 void Character::draw(sf::RenderWindow* screen) {

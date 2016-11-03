@@ -6,11 +6,9 @@
 
 STGame STGame::m_this;
 
-void STGame::init() {
-    m_manager.init(&m_map);
-}
+void STGame::init() { m_manager.init(&m_map); }
 
-void STGame::cleanup() {}
+void STGame::cleanup() { m_manager.destroy(); }
 
 void STGame::pause() {}
 void STGame::resume() {}
@@ -28,7 +26,7 @@ void STGame::handleEvents(cgf::Game* game) {
 
 void STGame::update(cgf::Game* game) {
     m_map.update(game->getUpdateInterval());
-    m_manager.update(game->getUpdateInterval());
+    m_manager.update(game);
 }
 void STGame::draw(cgf::Game* game) {
     sf::RenderWindow* screen = game->getScreen();
