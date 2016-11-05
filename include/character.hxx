@@ -12,7 +12,7 @@ class Character: public GameBeing {
 public:
     Character(sf::Vector2f startPos);
     virtual ~Character();
-
+    
     void loadConf(const std::string& fileName);
 
     void onTileCollision(sf::FloatRect tileRect, Axis axis);
@@ -21,6 +21,8 @@ public:
     bool toRemove();
     void animate();
     
+    Animation& getAnimation() { return m_animation; } // testing
+
     void update(double updateInterval);
     void draw(sf::RenderWindow* screen);
 protected:

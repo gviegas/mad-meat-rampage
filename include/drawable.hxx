@@ -11,19 +11,26 @@
 
 class Drawable {
 public:
-    Drawable() {}
-    virtual ~Drawable() {}
+    Drawable(): m_texture(nullptr) {}
+    virtual ~Drawable() {} //{ delete m_texture; } // call me child // (11/5) satan? is that  you?
 
     void create(const std::string& texFile) {
-        m_texture.loadFromFile(aux::getBasePath() + texFile);
-        m_sprite.setTexture(m_texture);
+        m_texture = new sf::Texture();
+        m_texture->loadFromFile(aux::getBasePath() + texFile);
+        m_sprite.setTexture(*m_texture);
     }
+
+    // void create(const sf::Texture& texture) {
+    //     m_sprite.setTexture(texture);
+    // }
+
+    sf::Sprite* getSprite() { return &m_sprite; } // testing
 
     virtual void draw(sf::RenderWindow* screen) = 0;
 protected:
     sf::Sprite m_sprite;
 private:
-    sf::Texture m_texture;
+    sf::Texture* m_texture; // clones will share this
 };
 
 #endif

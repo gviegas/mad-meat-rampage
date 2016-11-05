@@ -11,10 +11,8 @@
 Character::Character(sf::Vector2f startPos): GameBeing(startPos),
   m_animation(&m_sprite)
 {
-    // test block
     m_removal = false;
     m_animation.setLoop(true);
-    // end test
 }
 Character::~Character() {}
 
