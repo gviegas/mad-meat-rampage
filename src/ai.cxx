@@ -15,7 +15,8 @@ void AI::createGraph(TileMap* map) {
             }
         }
     }
-    int x, y, range = 1;
+    // create edges to adjacent tiles
+    int x, y, range = 3;
     for(auto& iter : *m_graph.getNodes()) {
         x = iter.m_x;
         y = iter.m_y;
@@ -134,20 +135,18 @@ void AI::act(Character* actor, Character* target) {
                     actor->changeDirection();
                 }
                 actor->setAction(Action::Jump);
-                actor->jump(300); // testing
-                //actor->move(Direction::Left);
+                actor->jump();
                 break;
             case Movement::JumpRight:
                 if(actor->getDirection() != Direction::Right) {
                     actor->changeDirection();
                 }
                 actor->setAction(Action::Jump);
-                actor->jump(300); // testing
-                //actor->move(Direction::Right);
+                actor->jump();
                 break;
             case Movement::Jump:
                 actor->setAction(Action::Jump);
-                actor->jump(300); // testing
+                actor->jump();
                 break;
         }
         m_lastMove = nextMove;

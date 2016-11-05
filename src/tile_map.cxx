@@ -4,14 +4,18 @@
 
 #include "tile_map.hxx"
 #include "aux.hxx"
+#include "definitions.hxx"
 #include <fstream>
 #include <sstream>
 #include <iostream>
 
-TileMap::TileMap(): m_tileSet({1280 / 64, 960 / 64}, {64, 64}) {
+TileMap::TileMap(): m_tileSet(
+  {SCREEN_WIDTH / TILE_WIDTH, SCREEN_HEIGHT / TILE_HEIGHT},
+  {TILE_WIDTH, TILE_HEIGHT}) 
+{
     loadConf("data/confs/map1.conf");
     loadMap("data/maps/map1.map");
-    m_bg.scale(1280.0 / 1920.0, 960.0 / 1080.0);
+    m_bg.scale(SCREEN_WIDTH / 1920.0, SCREEN_HEIGHT / 1080.0);
 }
 
 TileMap::~TileMap() {}

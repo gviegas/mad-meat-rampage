@@ -3,6 +3,7 @@
 */
 
 #include "character.hxx"
+#include "definitions.hxx"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -111,18 +112,25 @@ void Character::update(double updateInterval) {
     //else if(m_velocity.x) { m_action = Action::Walk; } // same as above...
     //else { m_action = Action::None; }
 
-    // move(m_velocity);
-    // accelerate({0.0, 0.5});
-    // addVelocity(m_acceleration);
-    // setAcceleration({0.0, 0.0});
-    // m_sprite.setPosition(m_pos);
-    // m_bBox.left = m_pos.x;
-    // m_bBox.top = m_pos.y;
-
     if(m_action != Action::Die) {
         float delta = (float)(updateInterval / 1000);
-
+        
         move(m_velocity * delta);
+
+        // boundary checking
+        if(m_pos.y < 0.0) {
+            setVelocity({m_velocity.x, 0.0});
+            m_pos.y = 0.0;
+        }
+        if(m_pos.x < 0.0) { 
+            setVelocity({0.0, m_velocity.y});
+            m_pos.x = 0.0; 
+        }
+        else if(m_pos.x > SCREEN_WIDTH - m_bBox.height) {
+            setVelocity({0.0, m_velocity.y}); 
+            m_pos.x = SCREEN_WIDTH - m_bBox.height;
+        }
+
         accelerate({0.0, 300.0 * delta});
         addVelocity(m_acceleration);
         setAcceleration({0.0, 0.0});
