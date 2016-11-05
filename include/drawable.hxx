@@ -20,10 +20,13 @@ public:
         m_sprite.setTexture(*m_texture);
     }
 
+    void destroy() { delete m_texture; } // only the last instance of this Drawable should call destroy() - beware with any copies still alive
+
     // void create(const sf::Texture& texture) {
     //     m_sprite.setTexture(texture);
     // }
 
+    sf::Texture* getTexture() { return m_texture; } // testing 
     sf::Sprite* getSprite() { return &m_sprite; } // testing
 
     virtual void draw(sf::RenderWindow* screen) = 0;

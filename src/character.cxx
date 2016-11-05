@@ -75,18 +75,15 @@ void Character::onTileCollision(sf::FloatRect tileRect, Axis axis) {
 }
 
 bool Character::toRemove() { return m_removal; }
+Animation& Character::getAnimation() { return m_animation; }
 
 void Character::animate() {
-    // test block
-    // just testing die animation/state - have to finish animation class...
     if(m_animation.getCurrentAnim() == "Die" && 
       m_animation.getFrameRange().x == m_animation.getFrameRange().y) 
     { 
         m_removal = true;
         return; 
     }
-    //m_animation.setLoop(true);
-    // end test
     switch(m_action) {
         case Action::None:
             m_dir == Direction::Left ? m_animation.animate("Idle-Left")
@@ -101,7 +98,7 @@ void Character::animate() {
               : m_animation.animate("Jump-Right");
             break;
         case Action::Die:
-            m_animation.setLoop(false); // testing
+            m_animation.setLoop(false);
             m_animation.animate("Die");
             break;
     }

@@ -19,9 +19,9 @@ public:
     virtual void onCollision(Collidable* collidable, Axis axis) = 0;
 
     bool toRemove();
-    void animate();
+    Animation& getAnimation();
     
-    Animation& getAnimation() { return m_animation; } // testing
+    void animate();
 
     void update(double updateInterval);
     void draw(sf::RenderWindow* screen);

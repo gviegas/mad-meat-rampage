@@ -18,15 +18,20 @@ void Manager::destroy() {
     for(auto& iter : m_beings) { delete iter; }
     m_beings.clear();
     m_collidables.clear();
-    
+
     // What about create & destroy this only once?
-    for(auto& iter : m_objectTem) { delete iter.second; }
+    for(auto& iter : m_objectTem) { 
+        iter.second->destroy(); 
+        delete iter.second;
+    }
     m_objectTem.clear();
-    for(auto& iter : m_beingTem) { delete iter.second; }
+    for(auto& iter : m_beingTem) {
+        iter.second->destroy();
+        delete iter.second;
+    }
     m_beingTem.clear();
 }
 
-// DOING block
 void Manager::loadConf(const std::string& fileName) {
     std::ifstream file;
     file.open(aux::getBasePath() + fileName);
@@ -38,18 +43,6 @@ void Manager::loadConf(const std::string& fileName) {
             std::stringstream sstream(line);
             std::string attr;
             sstream >> attr;
-            // if(attr == "TEXTURE") {
-            //     std::string texName, texPath;
-            //     sstream >> texName >> texPath;
-            //     auto iter = m_textures.find(texName);
-            //     if(iter == m_textures.end()) {
-            //         std::cerr << "ERROR: Manager::loadconf - texture " <<
-            //           texName << " already exists" << std::endl;
-            //     } else {
-            //         m_textures.emplace(texName, sf::Texture()).first->
-            //           second.loadFromFile(aux::getBasePath() + texPath);
-            //     }
-            // } else if(attr == "PLAYER") {
             if(attr == "PLAYER") {
                 std::string name, confPath;
                 sstream >> name >> confPath;
@@ -109,15 +102,28 @@ void Manager::loadEntities(const std::string& fileName) {
                       name << " template does not exist" << std::endl;
                 } else {
                     Enemy* enemy = new Enemy(*(Enemy*)(iter->second));
-                    enemy->getAnimation().setSprite(enemy->getSprite()); // testing - this should be made by default
+                    enemy->getAnimation().setSprite(enemy->getSprite()); // testing - this should be done by default on copy
+                    enemy->setPosition({x, y});
                     m_beings.emplace_back(enemy);
                     m_collidables.emplace_back(enemy);
+                    std::cout << "enemy tex: " << enemy->getTexture() << std::endl;  // debug
                 }
             } else if(attr == "TRAP") {
                 std::string name;
                 float x, y;
                 sstream >> name >> x >> y;
-                // todo
+                auto iter = m_objectTem.find(name);
+                if(iter == m_objectTem.end()) {
+                    std::cerr << "ERROR: Manager::loadEntities - " <<
+                      name << " template does not exist" << std::endl;
+                } else {
+                    Trap* trap = new Trap(*(Trap*)(iter->second));
+                    trap->getAnimation().setSprite(trap->getSprite()); // testing - this should be done by default on copy
+                    trap->setFixedPosition({x, y});
+                    m_objects.emplace_back(trap);
+                    m_collidables.emplace_back(trap);
+                    std::cout << "trap tex: " << trap->getTexture() << std::endl; // debug
+                }
             } else if(attr == "DOOR") {
                 std::string name;
                 float x, y;
@@ -133,27 +139,13 @@ void Manager::loadEntities(const std::string& fileName) {
         file.close();
     }
 }
-// end DOING
 
 void Manager::init(TileMap* map) {
-    loadConf("data/confs/manager.conf");
+    loadConf("data/confs/manager.conf"); // no need to loadConf() on every init()...
     loadEntities("data/entities/entities.ent");
     
     m_map = map;
     m_ai.createGraph(map);
-
-    // // test block
-    // m_player = new Player({448.0, 448.0});
-    // Player* p2 = new Player(*m_player);
-
-    // GameObject* trap1 = new Trap({540.0, 780.0});
-    // m_objects.emplace_back(trap1);
-    // m_collidables.emplace_back(trap1);
-
-    // GameBeing* enemy = new Enemy({940.0, 448.0});
-    // m_beings.emplace_back(enemy);
-    // m_collidables.emplace_back(enemy);
-    // // end test
 
     m_inputs = cgf::InputManager::instance();
     m_inputs->addKeyInput(GameInput::Left, sf::Keyboard::Left);

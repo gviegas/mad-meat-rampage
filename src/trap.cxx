@@ -11,8 +11,6 @@ Trap::Trap(sf::Vector2f fixedPos): GameObject(fixedPos),
   m_animation(&m_sprite) 
 {
     m_type = ObjectType::Trap;
-
-    m_animation.loadAnimation("data/animations/trap1.anim");
     m_animation.setLoop(true);
 }
 Trap::~Trap() {}
@@ -37,6 +35,10 @@ void Trap::loadConf(const std::string& fileName) {
                 float left, top, width, height;
                 sstream >> left >> top >> width >> height;
                 m_bBox = {left, top, width, height};
+            } else if(attr == "ANIMATION") {
+                std::string animFile;
+                sstream >> animFile;
+                m_animation.loadAnimation(animFile);
             }
         }
         file.close();
@@ -45,6 +47,8 @@ void Trap::loadConf(const std::string& fileName) {
 
 void Trap::onTileCollision(sf::FloatRect tileRect, Axis axis) {}
 void Trap::onCollision(Collidable* collidable, Axis axis) {}
+
+Animation& Trap::getAnimation() { return m_animation; }
 
 // todo: only works if bbox == dimension - correct this
 void Trap::update(double updateInterval) {
