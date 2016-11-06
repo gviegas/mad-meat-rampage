@@ -51,6 +51,7 @@ void UI::loadConf(const std::string& fileName) {
 void UI::update(int score, double updateInterval) {
     m_score = score;
     sf::IntRect rect;
+    int padding = 20;
 
     for(int i = 0, m = pow(10, m_digits - 1);
       i < m_digits; ++i, m = pow(10, m_digits - 1 - i))
@@ -59,12 +60,13 @@ void UI::update(int score, double updateInterval) {
         m_numbers[i].setTextureRect(
           {score / m * rect.width, rect.top, rect.width, rect.height});
         m_numbers[i].setPosition(sf::Vector2f(
-          SCREEN_WIDTH - rect.width * (m_digits - i), 0));
+          SCREEN_WIDTH - rect.width * (m_digits - i) - padding, padding));
         score %= m;
     }
 
     m_label.setPosition(sf::Vector2f(
-        SCREEN_WIDTH - m_labelTex.getSize().x - rect.width * m_digits, 0));
+      SCREEN_WIDTH - m_labelTex.getSize().x - rect.width * m_digits - padding,
+      padding));
 }
 
 void UI::draw(sf::RenderWindow* screen) {

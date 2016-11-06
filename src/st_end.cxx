@@ -48,7 +48,7 @@ void STEnd::update(cgf::Game* game) {
       (screenSize.y / 2 - m_texture.getSize().y / 2) * 0.5);
     sf::FloatRect rect = m_text.getLocalBounds();
     m_text.setPosition(screenSize.x / 2 - rect.width / 2,
-      (screenSize.y / 2 - rect.height / 2) * 1.5);    
+      (screenSize.y / 2 - rect.height / 2) * 1.7);    
 }
 
 void STEnd::draw(cgf::Game* game) {

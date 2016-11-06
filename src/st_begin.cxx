@@ -11,7 +11,7 @@ STBegin STBegin::m_this;
 void STBegin::init() {
     if(m_initiated) { return; }
 
-    m_texture.loadFromFile("data/textures/begin.png");
+    m_texture.loadFromFile("data/textures/title-begin.png");
     m_bg.setTexture(m_texture);
     m_font.loadFromFile("data/fonts/LiberationSans-Regular.ttf");
     m_text.setFont(m_font);
@@ -45,11 +45,10 @@ void STBegin::handleEvents(cgf::Game* game) {
 
 void STBegin::update(cgf::Game* game) {
     sf::Vector2u screenSize = game->getScreen()->getSize();
-    m_bg.setPosition(screenSize.x / 2 - m_texture.getSize().x / 2, 
-      (screenSize.y / 2 - m_texture.getSize().y / 2) * 0.5);
+    m_bg.setPosition(screenSize.x / 2 - m_texture.getSize().x / 2, 0.0);
     sf::FloatRect rect = m_text.getLocalBounds();
     m_text.setPosition(screenSize.x / 2 - rect.width / 2,
-      (screenSize.y / 2 - rect.height / 2) * 1.5);
+      (screenSize.y / 2 - rect.height / 2) * 1.7);
 }
 
 void STBegin::draw(cgf::Game* game) {
