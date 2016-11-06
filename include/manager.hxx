@@ -11,6 +11,7 @@
 #include "enemy.hxx"
 #include "collision_system.hxx"
 #include "ai.hxx"
+#include "ui.hxx"
 #include "GameState.h"
 #include "InputManager.h"
 
@@ -45,6 +46,8 @@ private:
     Collidables m_collidables;
     CollisionSystem m_collisionSystem;
     AI m_ai;
+    UI m_ui;
+    int m_score;
     cgf::InputManager* m_inputs;
 };
 

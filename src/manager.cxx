@@ -147,6 +147,8 @@ void Manager::init(TileMap* map) {
     m_map = map;
     m_ai.createGraph(map);
 
+    m_score = 0;
+
     m_inputs = cgf::InputManager::instance();
     m_inputs->addKeyInput(GameInput::Left, sf::Keyboard::Left);
     m_inputs->addKeyInput(GameInput::Right, sf::Keyboard::Right);
@@ -183,6 +185,7 @@ void Manager::update(cgf::Game* game) {
                     delete *iter;
                     m_collidables.erase(iter2);
                     m_beings.erase(iter);
+                    ++m_score;
                     break;
                 }
             }
@@ -206,9 +209,13 @@ void Manager::update(cgf::Game* game) {
     for(auto& iter : m_beings) {
         m_ai.act((Character*)iter, m_player);
     }
+
+    // updating ui
+    m_ui.update(m_score, updateInterval);
 }
 
 void Manager::draw(sf::RenderWindow* screen) {
+    m_ui.draw(screen);
     for(auto& iter : m_objects) { iter->draw(screen); }
     for(auto& iter : m_beings) { iter->draw(screen); }
     m_player->draw(screen);
