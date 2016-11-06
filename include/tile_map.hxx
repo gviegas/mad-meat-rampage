@@ -13,7 +13,6 @@ public:
     ~TileMap();
 
     sf::FloatRect getTileBBox(const sf::Vector2u& pos); // todo: return ref
-    const sf::Vector2f& getPlayerStart() const;
     float getGravity() const;
     const sf::Vector2u& getTileSize() const;
     const sf::Vector2u& getGridSize() const;
@@ -28,7 +27,6 @@ private:
     TileSet m_tileSet;
     sf::Texture m_texture;
     sf::Sprite m_bg;
-    sf::Vector2f m_playerStart;
     float m_gravity;
 };
 

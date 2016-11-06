@@ -32,6 +32,7 @@ public:
     void restart();
     void setLoop(bool loop);
     
+    const sf::IntRect& getCurrentRect() const;
     const std::string& getCurrentAnim() const;
     const sf::Vector2i& getFrameRange() const;
 private:

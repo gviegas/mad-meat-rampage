@@ -29,7 +29,6 @@ sf::FloatRect TileMap::getTileBBox(const sf::Vector2u& pos) { // todo: return re
     return rect;
 }
 
-const sf::Vector2f& TileMap::getPlayerStart() const { return m_playerStart; }
 float TileMap::getGravity() const { return m_gravity; }
 const sf::Vector2u& TileMap::getTileSize() const { return m_tileSet.getTileSize(); }
 const sf::Vector2u& TileMap::getGridSize() const { return m_tileSet.getGridSize(); }
@@ -58,10 +57,6 @@ void TileMap::loadConf(const std::string& fileName) {
                 std::string texFile;
                 sstream >> texFile;
                 m_tileSet.setTexture(texFile);
-            } else if(attr == "START") {
-                float x, y;
-                sstream >> x >> y;
-                m_playerStart = {x, y};
             } else if(attr == "GRAVITY") {
                 float gravity;
                 sstream >> gravity;

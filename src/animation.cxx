@@ -77,5 +77,6 @@ void Animation::restart() {}
 
 void Animation::setLoop(bool loop) { m_isLooping = loop; }
 
+const sf::IntRect& Animation::getCurrentRect() const { return m_currentRect; }
 const std::string& Animation::getCurrentAnim() const { return m_currentAnim; }
 const sf::Vector2i& Animation::getFrameRange() const { return m_frameRange; }
