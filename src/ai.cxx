@@ -15,7 +15,8 @@ void AI::createGraph(TileMap* map) {
             }
         }
     }
-    int x, y, range = 1;
+    // create edges to adjacent tiles
+    int x, y, range = 3;
     for(auto& iter : *m_graph.getNodes()) {
         x = iter.m_x;
         y = iter.m_y;
@@ -50,8 +51,10 @@ void AI::createGraph(TileMap* map) {
 }
 
 std::vector<Edge*> AI::search(const sf::Vector2u& from, const sf::Vector2u& to) {
-    Node* start = m_graph.getNode(from.x / 64, from.y / 64 + 1);
-    Node* goal = m_graph.getNode(to.x / 64, to.y / 64 + 1);
+    // Node* start = m_graph.getNode(from.x / TILE_WIDTH, from.y / TILE_HEIGHT + 1);
+    // Node* goal = m_graph.getNode(to.x / TILE_WIDTH, to.y / TILE_HEIGHT + 1);
+    Node* start = m_graph.getNode(from.x, from.y + 1);
+    Node* goal = m_graph.getNode(to.x, to.y + 1);
     if(start == nullptr) {
         //std::cerr << "ERROR: no node at " << from.x / 64 <<
         //  " " << from.y / 64 + 1<< std::endl;
@@ -90,8 +93,10 @@ std::vector<Edge*> AI::search(const sf::Vector2u& from, const sf::Vector2u& to) 
 
 void AI::act(Character* actor, Character* target) {
     std::vector<Edge*> steps = search(
-      {actor->getPosition().x, actor->getPosition().y}, 
-      {target->getPosition().x, target->getPosition().y});
+      {actor->getPosition().x / actor->getBBox().width, 
+      actor->getPosition().y / actor->getBBox().height}, 
+      {target->getPosition().x / target->getBBox().width,
+      target->getPosition().y / target->getBBox().height});
     
     // test block
     // for(auto& iter : steps) {
@@ -134,20 +139,18 @@ void AI::act(Character* actor, Character* target) {
                     actor->changeDirection();
                 }
                 actor->setAction(Action::Jump);
-                actor->jump(300); // testing
-                //actor->move(Direction::Left);
+                actor->jump();
                 break;
             case Movement::JumpRight:
                 if(actor->getDirection() != Direction::Right) {
                     actor->changeDirection();
                 }
                 actor->setAction(Action::Jump);
-                actor->jump(300); // testing
-                //actor->move(Direction::Right);
+                actor->jump();
                 break;
             case Movement::Jump:
                 actor->setAction(Action::Jump);
-                actor->jump(300); // testing
+                actor->jump();
                 break;
         }
         m_lastMove = nextMove;

@@ -9,7 +9,7 @@
 
 class Enemy: public Character {
 public:
-    Enemy();
+    Enemy(sf::Vector2f startPos);
     ~Enemy();
 
     void onCollision(Collidable* collidable, Axis axis);

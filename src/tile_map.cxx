@@ -4,14 +4,18 @@
 
 #include "tile_map.hxx"
 #include "aux.hxx"
+#include "definitions.hxx"
 #include <fstream>
 #include <sstream>
 #include <iostream>
 
-TileMap::TileMap(): m_tileSet({1280 / 64, 960 / 64}, {64, 64}) {
+TileMap::TileMap(): m_tileSet(
+  {SCREEN_WIDTH / TILE_WIDTH, SCREEN_HEIGHT / TILE_HEIGHT},
+  {TILE_WIDTH, TILE_HEIGHT}) 
+{
     loadConf("data/confs/map1.conf");
     loadMap("data/maps/map1.map");
-    m_bg.scale(1280.0 / 1920.0, 960.0 / 1080.0);
+    m_bg.scale(SCREEN_WIDTH / 1920.0, SCREEN_HEIGHT / 1080.0);
 }
 
 TileMap::~TileMap() {}
@@ -25,7 +29,6 @@ sf::FloatRect TileMap::getTileBBox(const sf::Vector2u& pos) { // todo: return re
     return rect;
 }
 
-const sf::Vector2f& TileMap::getPlayerStart() const { return m_playerStart; }
 float TileMap::getGravity() const { return m_gravity; }
 const sf::Vector2u& TileMap::getTileSize() const { return m_tileSet.getTileSize(); }
 const sf::Vector2u& TileMap::getGridSize() const { return m_tileSet.getGridSize(); }
@@ -54,10 +57,6 @@ void TileMap::loadConf(const std::string& fileName) {
                 std::string texFile;
                 sstream >> texFile;
                 m_tileSet.setTexture(texFile);
-            } else if(attr == "START") {
-                float x, y;
-                sstream >> x >> y;
-                m_playerStart = {x, y};
             } else if(attr == "GRAVITY") {
                 float gravity;
                 sstream >> gravity;

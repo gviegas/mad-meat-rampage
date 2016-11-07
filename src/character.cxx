@@ -3,6 +3,7 @@
 */
 
 #include "character.hxx"
+#include "definitions.hxx"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -11,10 +12,8 @@
 Character::Character(sf::Vector2f startPos): GameBeing(startPos),
   m_animation(&m_sprite)
 {
-    // test block
     m_removal = false;
     m_animation.setLoop(true);
-    // end test
 }
 Character::~Character() {}
 
@@ -59,10 +58,14 @@ void Character::onTileCollision(sf::FloatRect tileRect, Axis axis) {
         setVelocity({m_velocity.x, 0.0});
         if(m_pos.y < tileRect.top) {
             setPosition({m_pos.x, tileRect.top - m_bBox.height});
-            m_action = m_velocity.x ? Action::Walk : Action::None;
+            if(m_action != Action::Die) {
+                m_action = m_velocity.x ? Action::Walk : Action::None;
+            }
         } else if(m_pos.y > tileRect.top) {
             setPosition({m_pos.x, tileRect.top + tileRect.height});
-            m_action = Action::Jump;
+            if(m_action != Action::Die) {
+                m_action = Action::Jump;
+            }
         }
     } else if(axis == Axis::X) {
         setVelocity({0.0, m_velocity.y});
@@ -71,24 +74,22 @@ void Character::onTileCollision(sf::FloatRect tileRect, Axis axis) {
         } else if(m_pos.x > tileRect.left) {
             setPosition({tileRect.left + tileRect.width, m_pos.y});
         }
-        m_action = m_velocity.y ? Action::Jump : Action::None;
-       //std::cout << "collided on x!: " << (int)m_type << std::endl; // testing
+        if(m_action != Action::Die) {
+            m_action = m_velocity.y ? Action::Jump : Action::None;
+        }
     }
 }
 
 bool Character::toRemove() { return m_removal; }
+Animation& Character::getAnimation() { return m_animation; }
 
 void Character::animate() {
-    // test block
-    // just testing die animation/state - have to finish animation class...
     if(m_animation.getCurrentAnim() == "Die" && 
       m_animation.getFrameRange().x == m_animation.getFrameRange().y) 
     { 
         m_removal = true;
         return; 
     }
-    //m_animation.setLoop(true);
-    // end test
     switch(m_action) {
         case Action::None:
             m_dir == Direction::Left ? m_animation.animate("Idle-Left")
@@ -103,40 +104,44 @@ void Character::animate() {
               : m_animation.animate("Jump-Right");
             break;
         case Action::Die:
-            m_animation.setLoop(false); // testing
+            m_animation.setLoop(false);
             m_animation.animate("Die");
             break;
     }
 }
 
-// todo: there's some inconsistency with the character actions...
-// it should not be set only by the collision method... check the velocity here perhaps?
 void Character::update(double updateInterval) {
-    //if(m_velocity.y) { m_action = Action::Jump; } // note: it's a float...
-    //else if(m_velocity.x) { m_action = Action::Walk; } // same as above...
-    //else { m_action = Action::None; }
-
-    // move(m_velocity);
-    // accelerate({0.0, 0.5});
-    // addVelocity(m_acceleration);
-    // setAcceleration({0.0, 0.0});
-    // m_sprite.setPosition(m_pos);
-    // m_bBox.left = m_pos.x;
-    // m_bBox.top = m_pos.y;
-
-    if(m_action != Action::Die) {
+    //if(m_action != Action::Die) {
+    if(!m_removal) {    
         float delta = (float)(updateInterval / 1000);
-
+        
         move(m_velocity * delta);
+
+        // boundary checking (no need to check > max Y for now - will use tiles as floor)
+        if(m_pos.y < 0.0) {
+            setVelocity({m_velocity.x, 0.0});
+            m_pos.y = 0.0;
+        }
+        if(m_pos.x < 0.0) { 
+            setVelocity({0.0, m_velocity.y});
+            m_pos.x = 0.0; 
+        }
+        else if(m_pos.x > SCREEN_WIDTH - m_bBox.height) {
+            setVelocity({0.0, m_velocity.y}); 
+            m_pos.x = SCREEN_WIDTH - m_bBox.height;
+        }
+
         accelerate({0.0, 300.0 * delta});
         addVelocity(m_acceleration);
         setAcceleration({0.0, 0.0});
-        m_sprite.setPosition(m_pos);
-        // todo: only works if bbox == dimension - correct this
+
+        m_sprite.setPosition(
+          {m_pos.x - (m_animation.getCurrentRect().width - m_bBox.width),
+          m_pos.y - (m_animation.getCurrentRect().height - m_bBox.height)});
+
         m_bBox.left = m_pos.x;
         m_bBox.top = m_pos.y;
     }
-    
     animate();
 }
 

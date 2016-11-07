@@ -34,6 +34,11 @@ public:
        else { addVelocity({0.0, impulse}); }
     }
 
+    void jump() {
+        if(m_impulse > 0) { addVelocity({0.0, -m_impulse}); }
+        else { addVelocity({0.0, m_impulse}); }
+    }
+
     void changeDirection() {
         m_dir = m_dir == Direction::Left ?
           Direction::Right : Direction::Left;

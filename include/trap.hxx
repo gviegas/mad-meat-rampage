@@ -19,6 +19,8 @@ public:
     void onTileCollision(sf::FloatRect tileRect, Axis axis);
     void onCollision(Collidable* collidable, Axis axis);
 
+    Animation& getAnimation();
+
     void update(double updateInterval);
     void draw(sf::RenderWindow* screen);
 private:

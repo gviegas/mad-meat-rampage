@@ -1,26 +1,24 @@
 /*
-* Created by Gustavo Viegas (2016/10)
+* Created by Gustavo Viegas (2016/11)
 */
 
-#include "trap.hxx"
+#include "door.hxx"
+#include "aux.hxx"
+#include "definitions.hxx" 
 #include <fstream>
 #include <sstream>
 #include <iostream>
 
-Trap::Trap(sf::Vector2f fixedPos): GameObject(fixedPos), 
-  m_animation(&m_sprite) 
-{
-    m_type = ObjectType::Trap;
-    m_animation.setLoop(true);
+Door::Door(sf::Vector2f fixedPos): GameObject(fixedPos), m_warp(true) {
+    m_type = ObjectType::Door;
 }
-Trap::~Trap() {}
+Door::~Door() {}
 
-void Trap::loadConf(const std::string& fileName) {
+void Door::loadConf(const std::string& fileName) {
     std::ifstream file;
     file.open(aux::getBasePath() + fileName);
     if(!file.is_open()) {
-        std::cerr << "ERROR: Trap::loadConf - " <<
-          fileName << std::endl;
+        std::cerr << "ERROR: Door::loadConf - " << fileName << std::endl;
     } else {
         std::string line;
         while(std::getline(file, line)) {
@@ -32,31 +30,28 @@ void Trap::loadConf(const std::string& fileName) {
                 sstream >> texFile;
                 create(texFile);
             } else if(attr == "BBOX") {
-                float left, top, width, height;
+                int left, top, width, height;
                 sstream >> left >> top >> width >> height;
                 m_bBox = {left, top, width, height};
-            } else if(attr == "ANIMATION") {
-                std::string animFile;
-                sstream >> animFile;
-                m_animation.loadAnimation(animFile);
             }
         }
         file.close();
     }
 }
 
-void Trap::onTileCollision(sf::FloatRect tileRect, Axis axis) {}
-void Trap::onCollision(Collidable* collidable, Axis axis) {}
+void Door::onTileCollision(sf::FloatRect tileRect, Axis axis) {}
+void Door::onCollision(Collidable* collidable, Axis axis) {}
 
-Animation& Trap::getAnimation() { return m_animation; }
+void Door::setWarp(bool warp) { m_warp = warp; }
+bool Door::isWarp() { return m_warp; }
 
 // todo: only works if bbox == dimension - correct this
-void Trap::update(double updateInterval) {
+void Door::update(double updateInterval) {
     m_sprite.setPosition(m_fixedPos);
     m_bBox.left = m_fixedPos.x;
     m_bBox.top = m_fixedPos.y;
-    m_animation.animate("Rotate"); 
 }
-void Trap::draw(sf::RenderWindow* screen) {
+
+void Door::draw(sf::RenderWindow* screen) {
     screen->draw(m_sprite);
 }

@@ -9,7 +9,7 @@
 
 class Player: public Character {
 public:
-    Player();
+    Player(sf::Vector2f startPos);
     ~Player();
 
     void onCollision(Collidable* collidable, Axis axis);
