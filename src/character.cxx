@@ -117,7 +117,7 @@ void Character::update(double updateInterval) {
         
         move(m_velocity * delta);
 
-        // boundary checking
+        // boundary checking (no need to check > max Y for now - will use tiles as floor)
         if(m_pos.y < 0.0) {
             setVelocity({m_velocity.x, 0.0});
             m_pos.y = 0.0;

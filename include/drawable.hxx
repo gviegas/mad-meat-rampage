@@ -12,7 +12,7 @@
 class Drawable {
 public:
     Drawable(): m_texture(nullptr) {}
-    virtual ~Drawable() {} //{ delete m_texture; } // call me child // (11/5) satan? is that  you?
+    virtual ~Drawable() {}
 
     void create(const std::string& texFile) {
         m_texture = new sf::Texture();
@@ -20,14 +20,15 @@ public:
         m_sprite.setTexture(*m_texture);
     }
 
-    void destroy() { delete m_texture; } // only the last instance of this Drawable should call destroy() - beware with any copies still alive
-
-    // void create(const sf::Texture& texture) {
-    //     m_sprite.setTexture(texture);
+    // void create(sf::Texture* texture) {
+    //     m_sprite.setTexture(*texture);
+    //     m_texture = texture;
     // }
 
-    sf::Texture* getTexture() { return m_texture; } // testing 
-    sf::Sprite* getSprite() { return &m_sprite; } // testing
+    void destroy() { delete m_texture; } // only the last instance of this Drawable should call destroy() - beware with any copies still alive
+
+    sf::Texture* getTexture() { return m_texture; } 
+    sf::Sprite* getSprite() { return &m_sprite; }
 
     virtual void draw(sf::RenderWindow* screen) = 0;
 protected:

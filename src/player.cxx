@@ -3,6 +3,7 @@
 */
 
 #include "player.hxx"
+#include "door.hxx" // testing
 
 Player::Player(sf::Vector2f startPos): Character(startPos) {
     m_type = ObjectType::Player;
@@ -15,6 +16,10 @@ void Player::onCollision(Collidable* collidable, Axis axis) {
       collidable->getType() == ObjectType::Enemy) 
     {
         m_action = Action::Die;
+    } 
+    else if(collidable->getType() == ObjectType::Door) {
+        // door collision logic here
+        std::cout << "locked!" << std::endl; // debug
     }
 }
 

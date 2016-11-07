@@ -64,7 +64,9 @@ void Manager::loadConf(const std::string& fileName) {
             } else if(attr == "DOOR") {
                 std::string name, confPath;
                 sstream >> name >> confPath;
-                // todo
+                Door* door = new Door({0, 0});
+                door->loadConf(confPath);
+                m_objectTem.emplace(name, door);
             } else if(attr == "KEY") {
                 std::string name, confPath;
                 sstream >> name >> confPath;
@@ -125,10 +127,20 @@ void Manager::loadEntities(const std::string& fileName) {
                     std::cout << "trap tex: " << trap->getTexture() << std::endl; // debug
                 }
             } else if(attr == "DOOR") {
-                std::string name;
+                std::string name, warp;
                 float x, y;
-                sstream >> name >> x >> y;
-                // todo
+                sstream >> name >> x >> y >> warp;
+                auto iter = m_objectTem.find(name);
+                if(iter == m_objectTem.end()) {
+                    std::cerr << "ERROR: Manager::loadEntities - " <<
+                      name << " template does not exist" << std::endl;
+                } else {
+                    Door* door = new Door(*(Door*)(iter->second));
+                    door->setFixedPosition({x, y});
+                    door->setWarp(warp == "true" ? true : false);
+                    m_objects.emplace_back(door);
+                    m_collidables.emplace_back(door);
+                }
             } else if(attr == "KEY") {
                 std::string name;
                 float x, y;
