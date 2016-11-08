@@ -50,6 +50,7 @@ public:
     void accelerate(const sf::Vector2f& vec) { m_acceleration += vec; }
     void setVelocity(sf::Vector2f vec) { m_velocity = vec; }
     void addVelocity(const sf::Vector2f& vec) { m_velocity += vec; }
+    void setDirection(Direction dir) { m_dir = dir; }
 
     const sf::Vector2f& getPosition() { return m_pos; }
     Direction getDirection() { return m_dir; }

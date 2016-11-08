@@ -4,22 +4,31 @@
 
 #include "player.hxx"
 #include "door.hxx" // testing
+#include "key.hxx"
 
 Player::Player(sf::Vector2f startPos): Character(startPos) {
     m_type = ObjectType::Player;
     m_dir = Direction::Right;
+    m_hasKey = false;
 }
 Player::~Player() {}
+
+bool Player::hasKey() { return m_hasKey; }
 
 void Player::onCollision(Collidable* collidable, Axis axis) {
     if(collidable->getType() == ObjectType::Trap ||
       collidable->getType() == ObjectType::Enemy) 
-    {
-        m_action = Action::Die;
-    } 
-    else if(collidable->getType() == ObjectType::Door) {
-        // door collision logic here
-        std::cout << "locked!" << std::endl; // debug
+    { 
+        m_action = Action::Die; 
+    } else if(collidable->getType() == ObjectType::Door) {
+        // test block
+        if(m_hasKey) { std::cout << "good job!" << std::endl; } 
+        else { std::cout << "locked!" << std::endl; }
+        // end test
+    } else if(!m_hasKey && collidable->getType() == ObjectType::Key) {
+        ((Key*)collidable)->setUser(this);
+        ((Key*)collidable)->setInUse(true);
+        m_hasKey = true;
     }
 }
 

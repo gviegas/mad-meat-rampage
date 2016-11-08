@@ -12,9 +12,13 @@ public:
     Player(sf::Vector2f startPos);
     ~Player();
 
+    bool hasKey();
+
     void onCollision(Collidable* collidable, Axis axis);
     void handleInput(const std::string& input);
     void update(double updateInterval);
+private:
+    bool m_hasKey;
 };
 
 #endif

@@ -70,7 +70,9 @@ void Manager::loadConf(const std::string& fileName) {
             } else if(attr == "KEY") {
                 std::string name, confPath;
                 sstream >> name >> confPath;
-                // todo
+                Key* key = new Key({0, 0});
+                key->loadConf(confPath);
+                m_beingTem.emplace(name, key);
             }
         }
         file.close();
@@ -108,7 +110,6 @@ void Manager::loadEntities(const std::string& fileName) {
                     enemy->setPosition({x, y});
                     m_beings.emplace_back(enemy);
                     m_collidables.emplace_back(enemy);
-                    std::cout << "enemy tex: " << enemy->getTexture() << std::endl;  // debug
                 }
             } else if(attr == "TRAP") {
                 std::string name;
@@ -124,7 +125,6 @@ void Manager::loadEntities(const std::string& fileName) {
                     trap->setFixedPosition({x, y});
                     m_objects.emplace_back(trap);
                     m_collidables.emplace_back(trap);
-                    std::cout << "trap tex: " << trap->getTexture() << std::endl; // debug
                 }
             } else if(attr == "DOOR") {
                 std::string name, warp;
@@ -145,7 +145,19 @@ void Manager::loadEntities(const std::string& fileName) {
                 std::string name;
                 float x, y;
                 sstream >> name >> x >> y;
-                // todo
+                // test block
+                auto iter = m_beingTem.find(name);
+                if(iter == m_beingTem.end()) {
+                    std::cerr << "ERROR: Manager::loadEntities - " <<
+                      name << " template does not exist" << std::endl;
+                } else {
+                    Key* key = new Key(*(Key*)(iter->second));
+                    key->getAnimation().setSprite(key->getSprite());
+                    key->setPosition({x, y});
+                    m_beings.emplace_back(key);
+                    m_collidables.emplace_back(key);
+                }
+                // end test
             }
         }
         file.close();
@@ -188,6 +200,7 @@ void Manager::update(cgf::Game* game) {
         return;
     }
     for(auto iter = m_beings.begin(); iter != m_beings.end(); ++iter) {
+        if((*iter)->getType() == ObjectType::Key) { continue; } // key is a being...
         if(((Character*)(*iter))->toRemove()) {
             // bad choice of container...
             for(auto iter2 = m_collidables.begin(); 
