@@ -6,9 +6,15 @@
 
 STGame STGame::m_this;
 
-void STGame::init() { m_manager.init(&m_map); }
+void STGame::init() {
+    m_map.loadMap("data/maps/map1.map");
+    m_manager.init(&m_map); 
+}
 
-void STGame::cleanup() { m_manager.destroy(); }
+void STGame::cleanup() { 
+    m_map.clearTiles(); // bg and tile types will be reused
+    m_manager.destroy(); 
+}
 
 void STGame::pause() {}
 void STGame::resume() {}

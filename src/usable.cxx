@@ -79,7 +79,9 @@ void Usable::onTileCollision(sf::FloatRect tileRect, Axis axis) {
 
 void Usable::update(double updateInterval) {
     if(m_inUse && m_user) {
-        setPosition(m_user->getPosition());
+        sf::FloatRect rect = m_user->getBBox();
+        setPosition({rect.left + (rect.width / 2 - m_bBox.width / 2),
+          rect.top + (rect.height - m_bBox.height)});
         setDirection(m_user->getDirection());
     } else {
         float delta = (float)(updateInterval / 1000); 
