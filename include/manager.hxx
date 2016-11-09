@@ -28,7 +28,7 @@ public:
     Manager();
     ~Manager();
 
-    void init(TileMap* map);
+    void init(const std::string entitiesFile, TileMap* map);
     void destroy();
 
     void loadConf(const std::string& fileName);

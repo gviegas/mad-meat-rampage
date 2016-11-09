@@ -3,6 +3,7 @@
 */
 
 #include "manager.hxx"
+#include "st_game.hxx"
 #include "st_end.hxx"
 #include "aux.hxx"
 #include <fstream>
@@ -106,7 +107,7 @@ void Manager::loadEntities(const std::string& fileName) {
                       name << " template does not exist" << std::endl;
                 } else {
                     Enemy* enemy = new Enemy(*(Enemy*)(iter->second));
-                    enemy->getAnimation().setSprite(enemy->getSprite()); // testing - this should be done by default on copy
+                    enemy->getAnimation().setSprite(enemy->getSprite()); // NOTE: this should be done by default on copy
                     enemy->setPosition({x, y});
                     m_beings.emplace_back(enemy);
                     m_collidables.emplace_back(enemy);
@@ -121,7 +122,7 @@ void Manager::loadEntities(const std::string& fileName) {
                       name << " template does not exist" << std::endl;
                 } else {
                     Trap* trap = new Trap(*(Trap*)(iter->second));
-                    trap->getAnimation().setSprite(trap->getSprite()); // testing - this should be done by default on copy
+                    trap->getAnimation().setSprite(trap->getSprite()); // NOTE: this should be done by default on copy
                     trap->setFixedPosition({x, y});
                     m_objects.emplace_back(trap);
                     m_collidables.emplace_back(trap);
@@ -145,28 +146,26 @@ void Manager::loadEntities(const std::string& fileName) {
                 std::string name;
                 float x, y;
                 sstream >> name >> x >> y;
-                // test block
                 auto iter = m_beingTem.find(name);
                 if(iter == m_beingTem.end()) {
                     std::cerr << "ERROR: Manager::loadEntities - " <<
                       name << " template does not exist" << std::endl;
                 } else {
                     Key* key = new Key(*(Key*)(iter->second));
-                    key->getAnimation().setSprite(key->getSprite());
+                    key->getAnimation().setSprite(key->getSprite()); // NOTE: this should be done by default on copy
                     key->setPosition({x, y});
                     m_beings.emplace_back(key);
                     m_collidables.emplace_back(key);
                 }
-                // end test
             }
         }
         file.close();
     }
 }
 
-void Manager::init(TileMap* map) {
+void Manager::init(const std::string entitiesFile, TileMap* map) {
     loadConf("data/confs/manager.conf"); // no need to loadConf() on every init()...
-    loadEntities("data/entities/entities.ent");
+    loadEntities(entitiesFile);
     
     m_map = map;
     m_ai.createGraph(map);
@@ -194,6 +193,14 @@ void Manager::handleEvents() {
 void Manager::update(cgf::Game* game) {
     double updateInterval = game->getUpdateInterval();
     
+    // checking level completion
+    if(m_player->levelCompleted()) {
+        STGame* stGame = STGame::instance();
+        stGame->toNextLevel();
+        game->changeState(stGame);
+        return;
+    }
+
     // checking removals
     if(m_player->toRemove()) {
         game->changeState(STEnd::instance());

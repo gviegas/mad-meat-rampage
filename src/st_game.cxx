@@ -3,12 +3,46 @@
 */
 
 #include "st_game.hxx"
+#include "aux.hxx"
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
 STGame STGame::m_this;
 
+void STGame::setup(const std::string& fileName) {
+    std::ifstream file;
+    file.open(aux::getBasePath() + fileName);
+    if(!file.is_open()) {
+        std::cerr << "ERROR: STGame::setup - " << fileName << std::endl;
+    } else {
+        std::string line;
+        while(std::getline(file, line)) {
+            std::stringstream sstream(line);
+            std::string attr;
+            sstream >> attr;
+            if(attr == "LEVEL") {
+                std::string mapFile, entitiesFile;
+                sstream >> mapFile >> entitiesFile;
+                m_config.emplace_back(std::make_pair(mapFile, entitiesFile));
+            }
+        }
+        file.close();
+    }
+}
+
+void STGame::toNextLevel() { ++m_nextLevel; }
+
 void STGame::init() {
-    m_map.loadMap("data/maps/map1.map");
-    m_manager.init(&m_map); 
+    //m_map.loadMap("data/maps/map1.map");
+    //m_manager.init(&m_map);
+    if(!m_setupDone) {
+        setup("data/game.setup");
+        m_setupDone = true;
+    }
+    m_nextLevel %= m_config.size();
+    m_map.loadMap(m_config[m_nextLevel].first);
+    m_manager.init(m_config[m_nextLevel].second, &m_map);
 }
 
 void STGame::cleanup() { 

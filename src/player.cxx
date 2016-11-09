@@ -3,16 +3,19 @@
 */
 
 #include "player.hxx"
-#include "door.hxx" // testing
+#include "door.hxx"
 #include "key.hxx"
 
 Player::Player(sf::Vector2f startPos): Character(startPos) {
     m_type = ObjectType::Player;
     m_dir = Direction::Right;
+    m_levelCompleted = false;
     m_hasKey = false;
 }
 Player::~Player() {}
 
+
+bool Player::levelCompleted() { return m_levelCompleted; }
 bool Player::hasKey() { return m_hasKey; }
 
 void Player::onCollision(Collidable* collidable, Axis axis) {
@@ -21,10 +24,8 @@ void Player::onCollision(Collidable* collidable, Axis axis) {
     { 
         m_action = Action::Die; 
     } else if(collidable->getType() == ObjectType::Door) {
-        // test block
-        if(m_hasKey) { std::cout << "good job!" << std::endl; } 
-        else { std::cout << "locked!" << std::endl; }
-        // end test
+        if(m_hasKey) { m_levelCompleted = true; } 
+        else { std::cout << "locked!" << std::endl; } // what about printing this messsage in front of the door? Or play a locked sound perhaps?
     } else if(!m_hasKey && collidable->getType() == ObjectType::Key) {
         ((Key*)collidable)->setUser(this);
         ((Key*)collidable)->setInUse(true);

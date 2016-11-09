@@ -10,8 +10,13 @@
 #include "tile_map.hxx"
 #include "manager.hxx"
 
+using GameConfig = std::vector<std::pair<std::string, std::string>>;
+
 class STGame: public cgf::GameState {
 public:
+    void setup(const std::string& fileName);
+    void toNextLevel();
+
     void init();
     void cleanup();
 
@@ -29,6 +34,9 @@ private:
     static STGame m_this;
     TileMap m_map;
     Manager m_manager;
+    bool m_setupDone = false;
+    GameConfig m_config;
+    unsigned int m_nextLevel = 0;
 };
 
-#endif;
+#endif
