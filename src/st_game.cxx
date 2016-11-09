@@ -32,6 +32,8 @@ void STGame::setup(const std::string& fileName) {
 }
 
 void STGame::toNextLevel() { ++m_nextLevel; }
+void STGame::increaseScore(int amount) { m_score += amount; }
+void STGame::resetScore() { m_score = 0; }
 
 void STGame::init() {
     //m_map.loadMap("data/maps/map1.map");
@@ -67,9 +69,11 @@ void STGame::handleEvents(cgf::Game* game) {
 void STGame::update(cgf::Game* game) {
     m_map.update(game->getUpdateInterval());
     m_manager.update(game);
+    m_ui.update(m_score, game->getUpdateInterval());
 }
 void STGame::draw(cgf::Game* game) {
     sf::RenderWindow* screen = game->getScreen();
     m_map.draw(screen);
     m_manager.draw(screen);
+    m_ui.draw(screen);
 }
