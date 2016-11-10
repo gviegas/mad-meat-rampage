@@ -17,7 +17,8 @@ public:
     const sf::Vector2u& getTileSize() const;
     const sf::Vector2u& getGridSize() const;
     bool checkTile(const sf::Vector2u& gridPos);
-
+    void clearTiles();
+    
     void loadConf(const std::string& fileName);
     void loadMap(const std::string& fileName);
 

@@ -1,0 +1,5 @@
+DOOR Door 1088 816 true
+PLAYER Player 164 400
+ENEMY Chicken 400 400
+TRAP Blade 500 800 
+KEY Key 648 100

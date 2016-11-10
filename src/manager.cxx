@@ -3,6 +3,7 @@
 */
 
 #include "manager.hxx"
+#include "st_game.hxx"
 #include "st_end.hxx"
 #include "aux.hxx"
 #include <fstream>
@@ -70,7 +71,9 @@ void Manager::loadConf(const std::string& fileName) {
             } else if(attr == "KEY") {
                 std::string name, confPath;
                 sstream >> name >> confPath;
-                // todo
+                Key* key = new Key({0, 0});
+                key->loadConf(confPath);
+                m_beingTem.emplace(name, key);
             }
         }
         file.close();
@@ -104,11 +107,10 @@ void Manager::loadEntities(const std::string& fileName) {
                       name << " template does not exist" << std::endl;
                 } else {
                     Enemy* enemy = new Enemy(*(Enemy*)(iter->second));
-                    enemy->getAnimation().setSprite(enemy->getSprite()); // testing - this should be done by default on copy
+                    enemy->getAnimation().setSprite(enemy->getSprite()); // NOTE: this should be done by default on copy
                     enemy->setPosition({x, y});
                     m_beings.emplace_back(enemy);
                     m_collidables.emplace_back(enemy);
-                    std::cout << "enemy tex: " << enemy->getTexture() << std::endl;  // debug
                 }
             } else if(attr == "TRAP") {
                 std::string name;
@@ -120,11 +122,10 @@ void Manager::loadEntities(const std::string& fileName) {
                       name << " template does not exist" << std::endl;
                 } else {
                     Trap* trap = new Trap(*(Trap*)(iter->second));
-                    trap->getAnimation().setSprite(trap->getSprite()); // testing - this should be done by default on copy
+                    trap->getAnimation().setSprite(trap->getSprite()); // NOTE: this should be done by default on copy
                     trap->setFixedPosition({x, y});
                     m_objects.emplace_back(trap);
                     m_collidables.emplace_back(trap);
-                    std::cout << "trap tex: " << trap->getTexture() << std::endl; // debug
                 }
             } else if(attr == "DOOR") {
                 std::string name, warp;
@@ -145,21 +146,29 @@ void Manager::loadEntities(const std::string& fileName) {
                 std::string name;
                 float x, y;
                 sstream >> name >> x >> y;
-                // todo
+                auto iter = m_beingTem.find(name);
+                if(iter == m_beingTem.end()) {
+                    std::cerr << "ERROR: Manager::loadEntities - " <<
+                      name << " template does not exist" << std::endl;
+                } else {
+                    Key* key = new Key(*(Key*)(iter->second));
+                    key->getAnimation().setSprite(key->getSprite()); // NOTE: this should be done by default on copy
+                    key->setPosition({x, y});
+                    m_beings.emplace_back(key);
+                    m_collidables.emplace_back(key);
+                }
             }
         }
         file.close();
     }
 }
 
-void Manager::init(TileMap* map) {
+void Manager::init(const std::string entitiesFile, TileMap* map) {
     loadConf("data/confs/manager.conf"); // no need to loadConf() on every init()...
-    loadEntities("data/entities/entities.ent");
+    loadEntities(entitiesFile);
     
     m_map = map;
     m_ai.createGraph(map);
-
-    m_score = 0;
 
     m_inputs = cgf::InputManager::instance();
     m_inputs->addKeyInput(GameInput::Left, sf::Keyboard::Left);
@@ -182,12 +191,22 @@ void Manager::handleEvents() {
 void Manager::update(cgf::Game* game) {
     double updateInterval = game->getUpdateInterval();
     
+    // checking level completion
+    if(m_player->levelCompleted()) {
+        STGame* stGame = STGame::instance();
+        stGame->toNextLevel();
+        game->changeState(stGame);
+        return;
+    }
+
     // checking removals
     if(m_player->toRemove()) {
+        STGame::instance()->resetScore();
         game->changeState(STEnd::instance());
         return;
     }
     for(auto iter = m_beings.begin(); iter != m_beings.end(); ++iter) {
+        if((*iter)->getType() == ObjectType::Key) { continue; } // key is a being...
         if(((Character*)(*iter))->toRemove()) {
             // bad choice of container...
             for(auto iter2 = m_collidables.begin(); 
@@ -197,7 +216,7 @@ void Manager::update(cgf::Game* game) {
                     delete *iter;
                     m_collidables.erase(iter2);
                     m_beings.erase(iter);
-                    ++m_score;
+                    STGame::instance()->increaseScore();
                     break;
                 }
             }
@@ -221,13 +240,9 @@ void Manager::update(cgf::Game* game) {
     for(auto& iter : m_beings) {
         m_ai.act((Character*)iter, m_player);
     }
-
-    // updating ui
-    m_ui.update(m_score, updateInterval);
 }
 
 void Manager::draw(sf::RenderWindow* screen) {
-    m_ui.draw(screen);
     for(auto& iter : m_objects) { iter->draw(screen); }
     for(auto& iter : m_beings) { iter->draw(screen); }
     m_player->draw(screen);

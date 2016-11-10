@@ -10,7 +10,7 @@ STEnd STEnd::m_this;
 void STEnd::init() {
     if(m_initiated) { return; }
 
-    m_texture.loadFromFile("data/textures/end.png");
+    m_texture.loadFromFile("data/textures/game-over.png");
     m_bg.setTexture(m_texture);
     m_font.loadFromFile("data/fonts/LiberationSans-Regular.ttf");
     m_text.setFont(m_font);

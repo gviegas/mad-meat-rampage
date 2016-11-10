@@ -3,12 +3,54 @@
 */
 
 #include "st_game.hxx"
+#include "aux.hxx"
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
 STGame STGame::m_this;
 
-void STGame::init() { m_manager.init(&m_map); }
+void STGame::setup(const std::string& fileName) {
+    std::ifstream file;
+    file.open(aux::getBasePath() + fileName);
+    if(!file.is_open()) {
+        std::cerr << "ERROR: STGame::setup - " << fileName << std::endl;
+    } else {
+        std::string line;
+        while(std::getline(file, line)) {
+            std::stringstream sstream(line);
+            std::string attr;
+            sstream >> attr;
+            if(attr == "LEVEL") {
+                std::string mapFile, entitiesFile;
+                sstream >> mapFile >> entitiesFile;
+                m_config.emplace_back(std::make_pair(mapFile, entitiesFile));
+            }
+        }
+        file.close();
+    }
+}
 
-void STGame::cleanup() { m_manager.destroy(); }
+void STGame::toNextLevel() { ++m_nextLevel; }
+void STGame::increaseScore(int amount) { m_score += amount; }
+void STGame::resetScore() { m_score = 0; }
+
+void STGame::init() {
+    //m_map.loadMap("data/maps/map1.map");
+    //m_manager.init(&m_map);
+    if(!m_setupDone) {
+        setup("data/game.setup");
+        m_setupDone = true;
+    }
+    m_nextLevel %= m_config.size();
+    m_map.loadMap(m_config[m_nextLevel].first);
+    m_manager.init(m_config[m_nextLevel].second, &m_map);
+}
+
+void STGame::cleanup() { 
+    m_map.clearTiles(); // bg and tile types will be reused
+    m_manager.destroy(); 
+}
 
 void STGame::pause() {}
 void STGame::resume() {}
@@ -27,9 +69,11 @@ void STGame::handleEvents(cgf::Game* game) {
 void STGame::update(cgf::Game* game) {
     m_map.update(game->getUpdateInterval());
     m_manager.update(game);
+    m_ui.update(m_score, game->getUpdateInterval());
 }
 void STGame::draw(cgf::Game* game) {
     sf::RenderWindow* screen = game->getScreen();
     m_map.draw(screen);
     m_manager.draw(screen);
+    m_ui.draw(screen);
 }

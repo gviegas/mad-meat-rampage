@@ -1,3 +1,5 @@
+TILE 2 9 11
+TILE 3 10 11
 # floor
 TILE 0 0 14
 TILE 0 1 14

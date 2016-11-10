@@ -8,11 +8,11 @@
 #include "tile_map.hxx"
 #include "player.hxx"
 #include "door.hxx"
+#include "key.hxx"
 #include "trap.hxx"
 #include "enemy.hxx"
 #include "collision_system.hxx"
 #include "ai.hxx"
-#include "ui.hxx"
 #include "GameState.h"
 #include "InputManager.h"
 
@@ -27,7 +27,7 @@ public:
     Manager();
     ~Manager();
 
-    void init(TileMap* map);
+    void init(const std::string entitiesFile, TileMap* map);
     void destroy();
 
     void loadConf(const std::string& fileName);
@@ -47,8 +47,6 @@ private:
     Collidables m_collidables;
     CollisionSystem m_collisionSystem;
     AI m_ai;
-    UI m_ui;
-    int m_score;
     cgf::InputManager* m_inputs;
 };
 

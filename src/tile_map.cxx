@@ -13,8 +13,7 @@ TileMap::TileMap(): m_tileSet(
   {SCREEN_WIDTH / TILE_WIDTH, SCREEN_HEIGHT / TILE_HEIGHT},
   {TILE_WIDTH, TILE_HEIGHT}) 
 {
-    loadConf("data/confs/map1.conf");
-    loadMap("data/maps/map1.map");
+    loadConf("data/confs/map.conf");
     m_bg.scale(SCREEN_WIDTH / 1920.0, SCREEN_HEIGHT / 1080.0);
 }
 
@@ -36,6 +35,8 @@ const sf::Vector2u& TileMap::getGridSize() const { return m_tileSet.getGridSize(
 bool TileMap::checkTile(const sf::Vector2u& gridPos) { 
     return (m_tileSet.getTile(gridPos) == nullptr ? false : true); 
 }
+
+void TileMap::clearTiles() { m_tileSet.clearTiles(); }
 
 void TileMap::loadConf(const std::string& fileName) {
     std::ifstream file;
