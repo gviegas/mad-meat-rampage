@@ -4,10 +4,14 @@
 
 #include "st_end.hxx"
 #include "st_menu.hxx"
+#include "audio_manager.hxx"
 
 STEnd STEnd::m_this;
 
 void STEnd::init() {
+    AudioManager::instance()->stopSound("Ambience");
+    AudioManager::instance()->playSound("Game-Over");
+
     if(m_initiated) { return; }
 
     m_texture.loadFromFile("data/textures/game-over.png");
@@ -38,6 +42,7 @@ void STEnd::handleEvents(cgf::Game* game) {
     }
 
     if(m_inputs->testEvent("Enter")) {
+        AudioManager::instance()->stopSound("Game-Over");
         game->changeState(STMenu::instance());
     }
 }

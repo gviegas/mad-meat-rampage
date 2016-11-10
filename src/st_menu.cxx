@@ -4,6 +4,7 @@
 
 #include "st_menu.hxx"
 #include "st_game.hxx"
+#include "audio_manager.hxx"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -46,7 +47,8 @@ void STMenu::handleEvents(cgf::Game* game) {
               mousePos.y >= buttonPos.y &&
               mousePos.y <= buttonPos.y + buttonRect.height)
             {
-                if(iter.first == ButtonType::Play) { 
+                if(iter.first == ButtonType::Play) {
+                    AudioManager::instance()->playSound("Ambience", true);
                     game->changeState(STGame::instance());
                 } else if(iter.first == ButtonType::Options) {
                     // todo: options state

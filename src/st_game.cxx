@@ -36,8 +36,6 @@ void STGame::increaseScore(int amount) { m_score += amount; }
 void STGame::resetScore() { m_score = 0; }
 
 void STGame::init() {
-    //m_map.loadMap("data/maps/map1.map");
-    //m_manager.init(&m_map);
     if(!m_setupDone) {
         setup("data/game.setup");
         m_setupDone = true;
