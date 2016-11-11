@@ -3,10 +3,8 @@
 ############
 
 #release
-#FILES = src/*
-FILES = src/*.cxx ext/CGF/source/*.cpp ext/CGF/source/pugixml/pugixml.cpp
+FILES = src/*.cxx ext/CGF/source/*.cpp
 CC_FLAGS = -w
-#LK_FLAGS = -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio -lsfml-network -lCGF
 LK_FLAGS = -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio -lsfml-network
 #INC = -Lext/SFML-2.3.2/lib -Lext/CGF/lib -Iinclude -Iext/SFML-2.3.2/include -Iext/CGF/include
 INC = -Iinclude -Iext/CGF/include

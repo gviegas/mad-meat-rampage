@@ -44,7 +44,15 @@ Game::Game(int minFrameRate, int maxFrameRate)
 
 void Game::init(const char* title, int width, int height, bool fullscreen)
 {
-    screen = new sf::RenderWindow(sf::VideoMode(width, height), title);
+
+    auto mode = sf::VideoMode(width, height);
+    if(fullscreen) {
+        screen = new sf::RenderWindow(mode.isValid() ? mode :  
+          sf::VideoMode::getDesktopMode(), title, sf::Style::Fullscreen);
+    } else {
+        screen = new sf::RenderWindow(mode, title);
+    }
+
     // Enable transparency through blending
 //    glEnable(GL_BLEND);
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
