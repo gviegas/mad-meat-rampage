@@ -3,7 +3,7 @@
 */
 
 #include "enemy.hxx"
-#include <ctime>
+#include "audio_manager.hxx"
 
 Enemy::Enemy(sf::Vector2f startPos): Character(startPos) {
     m_type = ObjectType::Enemy;
@@ -12,8 +12,11 @@ Enemy::Enemy(sf::Vector2f startPos): Character(startPos) {
 Enemy::~Enemy() {}
 
 void Enemy::onCollision(Collidable* collidable, Axis axis) {
-    if(collidable->getType() == ObjectType::Trap) {
+    if(m_action != Action::Die && 
+      collidable->getType() == ObjectType::Trap)
+    {
         m_action = Action::Die;
+        AudioManager::instance()->playSound("Death");
     }
 }
 

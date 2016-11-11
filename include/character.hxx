@@ -28,6 +28,7 @@ public:
 protected:
     Animation m_animation;
     bool m_removal;
+    std::string m_id;
 };
 
 #endif

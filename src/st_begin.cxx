@@ -4,11 +4,15 @@
 
 #include "st_begin.hxx"
 #include "st_menu.hxx"
+#include "audio_manager.hxx"
 #include <iostream>
 
 STBegin STBegin::m_this;
 
 void STBegin::init() {
+    AudioManager::instance()->loadConf("data/confs/audio.conf");
+    AudioManager::instance()->playSound("Intro");
+
     if(m_initiated) { return; }
 
     m_texture.loadFromFile("data/textures/title-begin.png");
@@ -39,6 +43,7 @@ void STBegin::handleEvents(cgf::Game* game) {
     }
 
     if(m_inputs->testEvent("Enter")) {
+        AudioManager::instance()->stopSound("Intro");
         game->changeState(STMenu::instance());
     }
 }

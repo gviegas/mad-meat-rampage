@@ -5,12 +5,17 @@
 #include "manager.hxx"
 #include "st_game.hxx"
 #include "st_end.hxx"
+#include "audio_manager.hxx"
 #include "aux.hxx"
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <ctime>
+#include <cmath>
 
-Manager::Manager(): m_map(nullptr), m_player(nullptr) {}
+Manager::Manager(): m_map(nullptr), m_player(nullptr) {
+    srand(time(NULL));
+}
 Manager::~Manager() {}
 
 void Manager::destroy() {
@@ -31,6 +36,7 @@ void Manager::destroy() {
         delete iter.second;
     }
     m_beingTem.clear();
+    m_entityCount.clear();
 }
 
 void Manager::loadConf(const std::string& fileName) {
@@ -49,31 +55,41 @@ void Manager::loadConf(const std::string& fileName) {
                 sstream >> name >> confPath;
                 m_player = new Player({0, 0});
                 m_player->loadConf(confPath);
+                m_player->setId(name);
                 m_beingTem.emplace(name, m_player);
+                m_entityCount.emplace(name, 0);
             } else if(attr == "ENEMY") {
                 std::string name, confPath;
                 sstream >> name >> confPath;
                 Enemy* enemy = new Enemy({0, 0});
                 enemy->loadConf(confPath);
+                enemy->setId(name);
                 m_beingTem.emplace(name, enemy);
+                m_entityCount.emplace(name, 0);
             } else if(attr == "TRAP") {
                 std::string name, confPath;
                 sstream >> name >> confPath;
                 Trap* trap = new Trap({0, 0});
                 trap->loadConf(confPath);
+                trap->setId(name);
                 m_objectTem.emplace(name, trap);
+                m_entityCount.emplace(name, 0);
             } else if(attr == "DOOR") {
                 std::string name, confPath;
                 sstream >> name >> confPath;
                 Door* door = new Door({0, 0});
                 door->loadConf(confPath);
+                door->setId(name);
                 m_objectTem.emplace(name, door);
+                m_entityCount.emplace(name, 0);
             } else if(attr == "KEY") {
                 std::string name, confPath;
                 sstream >> name >> confPath;
                 Key* key = new Key({0, 0});
                 key->loadConf(confPath);
+                key->setId(name);
                 m_beingTem.emplace(name, key);
+                m_entityCount.emplace(name, 0);
             }
         }
         file.close();
@@ -93,10 +109,11 @@ void Manager::loadEntities(const std::string& fileName) {
             std::string attr;
             sstream >> attr;
             if(attr == "PLAYER") {
-                std::string name; // ignoring this for now
+                std::string name;
                 float x, y;
                 sstream >> name >> x >> y;
                 m_player->setPosition({x, y});
+                m_entityCount.find(name)->second++;
             } else if(attr == "ENEMY") {
                 std::string name;
                 float x, y;
@@ -111,6 +128,7 @@ void Manager::loadEntities(const std::string& fileName) {
                     enemy->setPosition({x, y});
                     m_beings.emplace_back(enemy);
                     m_collidables.emplace_back(enemy);
+                    m_entityCount.find(name)->second++;
                 }
             } else if(attr == "TRAP") {
                 std::string name;
@@ -126,6 +144,7 @@ void Manager::loadEntities(const std::string& fileName) {
                     trap->setFixedPosition({x, y});
                     m_objects.emplace_back(trap);
                     m_collidables.emplace_back(trap);
+                    m_entityCount.find(name)->second++;
                 }
             } else if(attr == "DOOR") {
                 std::string name, warp;
@@ -141,6 +160,7 @@ void Manager::loadEntities(const std::string& fileName) {
                     door->setWarp(warp == "true" ? true : false);
                     m_objects.emplace_back(door);
                     m_collidables.emplace_back(door);
+                    m_entityCount.find(name)->second++;
                 }
             } else if(attr == "KEY") {
                 std::string name;
@@ -156,6 +176,7 @@ void Manager::loadEntities(const std::string& fileName) {
                     key->setPosition({x, y});
                     m_beings.emplace_back(key);
                     m_collidables.emplace_back(key);
+                    m_entityCount.find(name)->second++;
                 }
             }
         }
@@ -213,6 +234,7 @@ void Manager::update(cgf::Game* game) {
               iter2 != m_collidables.end(); ++iter2)
             {
                 if(*iter2 == *iter) {
+                    m_entityCount.find((*iter)->getId())->second--;
                     delete *iter;
                     m_collidables.erase(iter2);
                     m_beings.erase(iter);
@@ -240,10 +262,37 @@ void Manager::update(cgf::Game* game) {
     for(auto& iter : m_beings) {
         m_ai.act((Character*)iter, m_player);
     }
+
+    // processing scenario
+    processScenario(updateInterval);
 }
 
 void Manager::draw(sf::RenderWindow* screen) {
     for(auto& iter : m_objects) { iter->draw(screen); }
     for(auto& iter : m_beings) { iter->draw(screen); }
     m_player->draw(screen);
+}
+
+void Manager::processScenario(double updateInterval) {
+    int uT = updateInterval * 3 + 1;
+
+    int pigCount = m_entityCount.find("Pig")->second;
+    int chickenCount = m_entityCount.find("Chicken")->second;
+
+    if(pigCount) {
+        int r1 = rand() % (pigCount >= uT ? uT : uT * 2 - pigCount);
+        if(!r1) { 
+            int r = rand();
+            r % 2 ? AudioManager::instance()->playSound("Pig") :
+            AudioManager::instance()->playSound("Pig2"); 
+        }
+    }
+    if(chickenCount) {
+        int r2 = rand() % (chickenCount >= uT ? uT : uT * 2 - chickenCount);
+        if(!r2) { 
+            int r = rand();
+            r % 2 ? AudioManager::instance()->playSound("Chicken") :
+            AudioManager::instance()->playSound("Chicken2"); 
+        }
+    }
 }
