@@ -111,8 +111,8 @@ void Character::animate() {
 }
 
 void Character::update(double updateInterval) {
-    //if(m_action != Action::Die) {
-    if(!m_removal) {    
+    if(m_action != Action::Die) {
+    //if(!m_removal) {
         float delta = (float)(updateInterval / 1000);
         
         move(m_velocity * delta);
