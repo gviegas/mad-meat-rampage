@@ -93,7 +93,7 @@ void Usable::update(double updateInterval) {
     m_sprite.setPosition(m_pos);
     m_bBox.left = m_pos.x;
     m_bBox.top = m_pos.y;
-    animate();
+    animate(updateInterval);
 }
 
 void Usable::draw(sf::RenderWindow* screen) {

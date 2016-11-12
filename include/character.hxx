@@ -21,7 +21,7 @@ public:
     bool toRemove();
     Animation& getAnimation();
     
-    void animate();
+    void animate(double updateInterval);
 
     void update(double updateInterval);
     void draw(sf::RenderWindow* screen);

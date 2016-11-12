@@ -83,7 +83,7 @@ void Character::onTileCollision(sf::FloatRect tileRect, Axis axis) {
 bool Character::toRemove() { return m_removal; }
 Animation& Character::getAnimation() { return m_animation; }
 
-void Character::animate() {
+void Character::animate(double updateInterval) {
     if(m_animation.getCurrentAnim() == "Die" && 
       m_animation.getFrameRange().x == m_animation.getFrameRange().y) 
     { 
@@ -92,20 +92,23 @@ void Character::animate() {
     }
     switch(m_action) {
         case Action::None:
-            m_dir == Direction::Left ? m_animation.animate("Idle-Left")
-              : m_animation.animate("Idle-Right");
+            m_dir == Direction::Left ? 
+              m_animation.animate("Idle-Left", updateInterval)
+              : m_animation.animate("Idle-Right", updateInterval);
             break;
         case Action::Walk:
-            m_dir == Direction::Left ? m_animation.animate("Walk-Left")
-              : m_animation.animate("Walk-Right");
+            m_dir == Direction::Left ? 
+              m_animation.animate("Walk-Left", updateInterval)
+              : m_animation.animate("Walk-Right", updateInterval);
             break;
         case Action::Jump:
-            m_dir == Direction::Left ? m_animation.animate("Jump-Left")
-              : m_animation.animate("Jump-Right");
+            m_dir == Direction::Left ? 
+              m_animation.animate("Jump-Left", updateInterval)
+              : m_animation.animate("Jump-Right", updateInterval);
             break;
         case Action::Die:
             m_animation.setLoop(false);
-            m_animation.animate("Die");
+            m_animation.animate("Die", updateInterval);
             break;
     }
 }
@@ -142,7 +145,7 @@ void Character::update(double updateInterval) {
         m_bBox.left = m_pos.x;
         m_bBox.top = m_pos.y;
     }
-    animate();
+    animate(updateInterval);
 }
 
 void Character::draw(sf::RenderWindow* screen) {

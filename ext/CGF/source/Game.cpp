@@ -46,12 +46,14 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 {
 
     auto mode = sf::VideoMode(width, height);
-    if(fullscreen) {
-        screen = new sf::RenderWindow(mode.isValid() ? mode :  
-          sf::VideoMode::getDesktopMode(), title, sf::Style::Fullscreen);
+    if(fullscreen && mode.isValid()) {
+        screen = new sf::RenderWindow(mode, title, sf::Style::Fullscreen);
     } else {
         screen = new sf::RenderWindow(mode, title);
     }
+
+    std::cout << "Screen Size: " << screen->getSize().x 
+      << "x" << screen->getSize().y << std::endl;
 
     // Enable transparency through blending
 //    glEnable(GL_BLEND);

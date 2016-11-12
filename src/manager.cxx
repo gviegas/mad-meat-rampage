@@ -260,7 +260,7 @@ void Manager::update(cgf::Game* game) {
 
     // finding paths
     for(auto& iter : m_beings) {
-        m_ai.act((Character*)iter, m_player);
+        m_ai.act((Character*)iter, m_player, updateInterval);
     }
 
     // processing scenario
@@ -274,7 +274,7 @@ void Manager::draw(sf::RenderWindow* screen) {
 }
 
 void Manager::processScenario(double updateInterval) {
-    int uT = updateInterval * 3 + 1;
+    int uT = 6000 / updateInterval + 1;
 
     int pigCount = m_entityCount.find("Pig")->second;
     int chickenCount = m_entityCount.find("Chicken")->second;
