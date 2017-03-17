@@ -91,7 +91,9 @@ std::vector<Edge*> AI::search(const sf::Vector2u& from, const sf::Vector2u& to) 
     return empty;
 }
 
-void AI::act(Character* actor, Character* target) {
+void AI::act(Character* actor, Character* target, double updateInterval) {
+    float delta = (float)(updateInterval / 1000);
+    
     std::vector<Edge*> steps = search(
       {actor->getPosition().x / actor->getBBox().width, 
       actor->getPosition().y / actor->getBBox().height}, 
@@ -110,10 +112,10 @@ void AI::act(Character* actor, Character* target) {
     if(actor->getAction() == Action::Jump) {
         if(m_lastMove == Movement::JumpLeft) {
             //actor->move(Direction::Left);
-            actor->accelerate({-1, 0});
+            actor->accelerate({-30 * delta, 0});
         } else if(m_lastMove == Movement::JumpRight) {
             //actor->move(Direction::Right);
-            actor->accelerate({1, 0});
+            actor->accelerate({30 * delta, 0});
         }
     }
 

@@ -24,7 +24,7 @@ public:
     virtual void onCollision(Collidable* collidable, Axis axis) = 0;
 
     Animation& getAnimation();
-    virtual void animate() = 0;
+    virtual void animate(double updateInterval) = 0;
 
     void update(double updateInterval);
     void draw(sf::RenderWindow* screen);

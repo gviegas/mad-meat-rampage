@@ -27,6 +27,13 @@ inline std::string getBasePath() {
     return nullptr;
 }
 
+#elif defined(__WIN32__) || defined(_WIN32)
+#include <windows.h>
+
+inline std::string getBasePath() {
+    return ""; // placeholder...
+}
+
 #endif
 } // namespace aux
 

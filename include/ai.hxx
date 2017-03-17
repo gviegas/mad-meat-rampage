@@ -18,7 +18,7 @@ public:
     ~AI();
 
     void createGraph(TileMap* map);
-    void act(Character* actor, Character* target);
+    void act(Character* actor, Character* target, double updateInterval=33.3);
 private:
     std::vector<Edge*> search(const sf::Vector2u& from, const sf::Vector2u& to);
     std::unordered_map<Node*, std::pair<Node*, Edge*>> m_path;

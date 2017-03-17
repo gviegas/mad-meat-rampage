@@ -12,6 +12,8 @@ Animation::Animation(sf::Sprite* sprite): m_sprite(sprite), m_currentAnim("") {
     m_isPlaying = false;
     m_isStopped = false;
     m_isLooping = false;
+    m_interval = 33.3; //
+    m_elapsed = 0.0; //
 }
 Animation::~Animation() {}
 
@@ -45,8 +47,8 @@ void Animation::setSprite(sf::Sprite* sprite) {
     m_sprite = sprite;
 }
 
-void Animation::animate(std::string animation) {
-    if(m_isPlaying && animation == m_currentAnim) { play(); }
+void Animation::animate(std::string animation, double updateInterval) {
+    if(m_isPlaying && animation == m_currentAnim) { play(updateInterval); }
     else {
         auto iter = m_animations.find(animation);
         if(iter == m_animations.end()) {
@@ -56,13 +58,18 @@ void Animation::animate(std::string animation) {
             m_currentRect = iter->second.m_rect;
             m_currentAnim = animation;
             m_frameRange = {0, iter->second.m_totalFrames};
+            m_elapsed = 0.0;  //
             m_isPlaying = true;
-            play();
+            play(m_interval);
         }
     }
 }
 
-void Animation::play() {
+void Animation::play(double updateInterval) {
+    m_elapsed += updateInterval;
+    if(m_elapsed < m_interval) { return; }
+    else { m_elapsed = 0.0; }
+
     if(m_frameRange.x == m_frameRange.y) {
         if(m_isLooping) { m_frameRange.x = 0; }
         else { m_isPlaying = false; return; }
