@@ -12,13 +12,13 @@ Key::Key(sf::Vector2f startPos): Usable(startPos) {
 }
 Key::~Key() {}
 
-void Key::animate() {
+void Key::animate(double updateInterval) {
     switch(m_dir) {
         case Direction::Left:
-            m_animation.animate("Left");
+            m_animation.animate("Left", updateInterval);
             break;
         case Direction::Right:
-            m_animation.animate("Right");
+            m_animation.animate("Right", updateInterval);
             break;
     }
 }

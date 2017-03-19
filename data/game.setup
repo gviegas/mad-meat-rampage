@@ -1,3 +1,5 @@
 LEVEL data/maps/map1.map data/entities/entities1.ent
 LEVEL data/maps/map2.map data/entities/entities2.ent
 LEVEL data/maps/map3.map data/entities/entities3.ent
+LEVEL data/maps/map4.map data/entities/entities4.ent
+LEVEL data/maps/map5.map data/entities/entities5.ent

@@ -55,7 +55,7 @@ void Trap::update(double updateInterval) {
     m_sprite.setPosition(m_fixedPos);
     m_bBox.left = m_fixedPos.x;
     m_bBox.top = m_fixedPos.y;
-    m_animation.animate("Rotate"); 
+    m_animation.animate("Rotate", updateInterval); 
 }
 void Trap::draw(sf::RenderWindow* screen) {
     screen->draw(m_sprite);

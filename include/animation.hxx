@@ -26,8 +26,8 @@ public:
     void loadAnimation(const std::string& fileName);
     void setSprite(sf::Sprite* sprite);
 
-    void animate(std::string animation);
-    void play();
+    void animate(std::string animation, double updateInterval = 33.3);
+    void play(double updateInterval);
     void stop();
     void restart();
     void setLoop(bool loop);
@@ -44,6 +44,8 @@ private:
     bool m_isPlaying;
     bool m_isStopped;
     bool m_isLooping;
+    double m_interval;
+    double m_elapsed;
 };
 
 #endif

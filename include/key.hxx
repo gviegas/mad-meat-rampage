@@ -12,7 +12,7 @@ public:
     Key(sf::Vector2f startPos);
     ~Key();
 
-    void animate();
+    void animate(double updateInterval);
     void onCollision(Collidable* collidable, Axis axis);
 };
 

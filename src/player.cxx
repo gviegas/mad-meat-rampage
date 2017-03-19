@@ -31,7 +31,7 @@ void Player::onCollision(Collidable* collidable, Axis axis) {
             m_levelCompleted = true; 
             AudioManager::instance()->playSound("Door");
         }
-        else { std::cout << "locked!" << std::endl; } // what about printing this messsage in front of the door? Or play a locked sound perhaps?
+        else {} // What about printing a locked messsage in front of the door? Or play a locked sound perhaps?
     } else if(!m_hasKey && collidable->getType() == ObjectType::Key) {
         ((Key*)collidable)->setUser(this);
         ((Key*)collidable)->setInUse(true);

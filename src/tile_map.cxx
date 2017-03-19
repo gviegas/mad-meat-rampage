@@ -14,7 +14,6 @@ TileMap::TileMap(): m_tileSet(
   {TILE_WIDTH, TILE_HEIGHT}) 
 {
     loadConf("data/confs/map.conf");
-    m_bg.scale(SCREEN_WIDTH / 1920.0, SCREEN_HEIGHT / 1080.0);
 }
 
 TileMap::~TileMap() {}
