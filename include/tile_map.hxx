@@ -12,13 +12,13 @@ public:
     TileMap();
     ~TileMap();
 
-    sf::FloatRect getTileBBox(const sf::Vector2u& pos); // todo: return ref
+    sf::FloatRect getTileBBox(const sf::Vector2u& pos); // TODO: return ref
     float getGravity() const;
     const sf::Vector2u& getTileSize() const;
     const sf::Vector2u& getGridSize() const;
     bool checkTile(const sf::Vector2u& gridPos);
     void clearTiles();
-    
+
     void loadConf(const std::string& fileName);
     void loadMap(const std::string& fileName);
 

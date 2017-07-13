@@ -13,7 +13,7 @@ void AudioManager::loadConf(const std::string& fileName) {
     std::ifstream file;
     file.open(aux::getBasePath() + fileName);
     if(!file.is_open()) {
-        std::cerr << "ERROR: AudioManager::loadConf - " 
+        std::cerr << "ERROR: AudioManager::loadConf - "
           << fileName << std::endl;
     } else {
         std::string line;
@@ -31,7 +31,7 @@ void AudioManager::loadConf(const std::string& fileName) {
                 m_sounds.find(name)->second.setBuffer(
                   m_buffers.find(name)->second);
             } else if(attr == "MUSIC") {
-                // todo
+                // TODO
             }
         }
         file.close();
@@ -64,5 +64,5 @@ void AudioManager::stopSound(const std::string& name) {
     }
 }
 
-void AudioManager::playMusic(const std::string& name, bool loop) {}
-void AudioManager::stopMusic(const std::string& name) {}
+void AudioManager::playMusic(const std::string& name, bool loop) {} // TODO
+void AudioManager::stopMusic(const std::string& name) {} // TODO

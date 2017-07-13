@@ -59,7 +59,7 @@ public:
         return &iter->second;
     }
 
-    // note: for debug...
+    // NOTE: for debug
     void print() {
         for(auto& node : m_nodes) {
             std::cout << "node: " << node.m_x << " " << node.m_y << std::endl;
