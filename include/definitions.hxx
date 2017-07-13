@@ -7,15 +7,15 @@
 
 #include <string>
 
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 960
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 #define TILE_WIDTH 64
 #define TILE_HEIGHT 64
 
 enum class ObjectType { Tile = 0, Player, Enemy, Trap, Door, Key };
 enum class Movement { Left = 0, Right, JumpLeft, JumpRight, Jump, Idle};
 
-// todo: remove this ns ffs
+// TODO: change this
 namespace GameInput {
 static std::string Left = "Left";
 static std::string Right = "Right";

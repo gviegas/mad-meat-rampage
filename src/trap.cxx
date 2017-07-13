@@ -7,8 +7,8 @@
 #include <sstream>
 #include <iostream>
 
-Trap::Trap(sf::Vector2f fixedPos): GameObject(fixedPos), 
-  m_animation(&m_sprite) 
+Trap::Trap(sf::Vector2f fixedPos): GameObject(fixedPos),
+  m_animation(&m_sprite)
 {
     m_type = ObjectType::Trap;
     m_animation.setLoop(true);
@@ -50,12 +50,12 @@ void Trap::onCollision(Collidable* collidable, Axis axis) {}
 
 Animation& Trap::getAnimation() { return m_animation; }
 
-// todo: only works if bbox == dimension - correct this
+// TODO: only works if bbox == dimension
 void Trap::update(double updateInterval) {
     m_sprite.setPosition(m_fixedPos);
     m_bBox.left = m_fixedPos.x;
     m_bBox.top = m_fixedPos.y;
-    m_animation.animate("Rotate", updateInterval); 
+    m_animation.animate("Rotate", updateInterval);
 }
 void Trap::draw(sf::RenderWindow* screen) {
     screen->draw(m_sprite);

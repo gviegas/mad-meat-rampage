@@ -11,16 +11,16 @@
 
 TileMap::TileMap(): m_tileSet(
   {SCREEN_WIDTH / TILE_WIDTH, SCREEN_HEIGHT / TILE_HEIGHT},
-  {TILE_WIDTH, TILE_HEIGHT}) 
+  {TILE_WIDTH, TILE_HEIGHT})
 {
     loadConf("data/confs/map.conf");
 }
 
 TileMap::~TileMap() {}
 
-sf::FloatRect TileMap::getTileBBox(const sf::Vector2u& pos) { // todo: return ref
+sf::FloatRect TileMap::getTileBBox(const sf::Vector2u& pos) { // TODO: return ref
     Tile* tile = m_tileSet.getTile(pos);
-    if(!tile) { return {-1, -1, -1, -1}; } // todo: get rid of this
+    if(!tile) { return {-1, -1, -1, -1}; } // TODO: get rid of this
     sf::FloatRect rect = tile->m_type->m_sprite.getLocalBounds();
     rect.left = tile->m_pos.x * getTileSize().x;
     rect.top = tile->m_pos.y * getTileSize().y;
@@ -31,8 +31,8 @@ float TileMap::getGravity() const { return m_gravity; }
 const sf::Vector2u& TileMap::getTileSize() const { return m_tileSet.getTileSize(); }
 const sf::Vector2u& TileMap::getGridSize() const { return m_tileSet.getGridSize(); }
 
-bool TileMap::checkTile(const sf::Vector2u& gridPos) { 
-    return (m_tileSet.getTile(gridPos) == nullptr ? false : true); 
+bool TileMap::checkTile(const sf::Vector2u& gridPos) {
+    return (m_tileSet.getTile(gridPos) == nullptr ? false : true);
 }
 
 void TileMap::clearTiles() { m_tileSet.clearTiles(); }
@@ -67,7 +67,7 @@ void TileMap::loadConf(const std::string& fileName) {
                 TileType* type = new TileType({top, left, width, height});
                 if(!m_tileSet.addTileType(id, type)) {
                     delete type;
-                    std::cerr << "ERROR: TileMap::loadConf - TILE " << 
+                    std::cerr << "ERROR: TileMap::loadConf - TILE " <<
                       id << std::endl;
                 }
             }
@@ -104,7 +104,7 @@ void TileMap::update(double updateInterval) {}
 
 void TileMap::draw(sf::RenderWindow* screen) {
     screen->draw(m_bg);
-    // todo: culling (won't be needed if the map and the screen
+    // TODO: culling (won't be needed if the map and the screen
     // have the same size...)
     for(int i = 0; i < m_tileSet.getGridSize().x; ++i) {
         for(int j = 0; j < m_tileSet.getGridSize().y; ++j) {

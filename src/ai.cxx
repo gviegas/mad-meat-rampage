@@ -46,8 +46,6 @@ void AI::createGraph(TileMap* map) {
         }
         m_graph.addEdges(&iter, edges);
     }
-
-    //m_graph.print(); // debug
 }
 
 std::vector<Edge*> AI::search(const sf::Vector2u& from, const sf::Vector2u& to) {
@@ -72,7 +70,7 @@ std::vector<Edge*> AI::search(const sf::Vector2u& from, const sf::Vector2u& to) 
             for(auto& edge : *m_graph.getEdges(current)) {
                 if(m_path.find(edge.m_node) == m_path.end()) {
                     frontier.push(edge.m_node);
-                    m_path.emplace(edge.m_node, 
+                    m_path.emplace(edge.m_node,
                       std::make_pair(current, &edge));
                 }
             }
@@ -93,21 +91,12 @@ std::vector<Edge*> AI::search(const sf::Vector2u& from, const sf::Vector2u& to) 
 
 void AI::act(Character* actor, Character* target, double updateInterval) {
     float delta = (float)(updateInterval / 1000);
-    
+
     std::vector<Edge*> steps = search(
-      {actor->getPosition().x / actor->getBBox().width, 
-      actor->getPosition().y / actor->getBBox().height}, 
+      {actor->getPosition().x / actor->getBBox().width,
+      actor->getPosition().y / actor->getBBox().height},
       {target->getPosition().x / target->getBBox().width,
       target->getPosition().y / target->getBBox().height});
-    
-    // test block
-    // for(auto& iter : steps) {
-    //     if(!iter) { break; }
-    //     std::cout << iter->m_node->m_x << "," <<
-    //       iter->m_node->m_y << " ";
-    // }
-    // std::cout << std::endl;
-    // end test
 
     if(actor->getAction() == Action::Jump) {
         if(m_lastMove == Movement::JumpLeft) {
@@ -122,11 +111,10 @@ void AI::act(Character* actor, Character* target, double updateInterval) {
     if(steps.size()) {
         Edge* nextStep = steps.back();
         Movement nextMove = nextStep->m_move;
-        //std::cout << "next move " << (int)nextStep->m_move << std::endl; // debug
         switch(nextMove) {
             case Movement::Left:
-                if(actor->getDirection() != Direction::Left) { 
-                    actor->changeDirection(); 
+                if(actor->getDirection() != Direction::Left) {
+                    actor->changeDirection();
                 }
                 actor->move(Direction::Left);
                 break;

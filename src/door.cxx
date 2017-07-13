@@ -4,7 +4,7 @@
 
 #include "door.hxx"
 #include "aux.hxx"
-#include "definitions.hxx" 
+#include "definitions.hxx"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -45,7 +45,7 @@ void Door::onCollision(Collidable* collidable, Axis axis) {}
 void Door::setWarp(bool warp) { m_warp = warp; }
 bool Door::isWarp() { return m_warp; }
 
-// todo: only works if bbox == dimension - correct this
+// TODO: only works if bbox == dimension
 void Door::update(double updateInterval) {
     m_sprite.setPosition(m_fixedPos);
     m_bBox.left = m_fixedPos.x;

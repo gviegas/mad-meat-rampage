@@ -14,20 +14,20 @@ bool CollisionSystem::isColliding(Collidable* collidable,
       tileRect, intersection));
 }
 
-bool CollisionSystem::isColliding(Collidable* collidA, 
+bool CollisionSystem::isColliding(Collidable* collidA,
   Collidable* collidB, sf::FloatRect& intersection)
 {
     return (collidA->getBBox().intersects(
       collidB->getBBox(), intersection));
 }
 
-// todo: a better algorithm to choose the right collision axis
+// TODO: a better algorithm to choose the right collision axis
 Axis CollisionSystem::getCollisionAxis(sf::FloatRect& intersection) {
     return (intersection.width < intersection.height ?
       Axis::X : Axis::Y);
 }
 
-void CollisionSystem::checkTileCollisions(Collidable* collidable, 
+void CollisionSystem::checkTileCollisions(Collidable* collidable,
   TileMap* map)
 {
     sf::FloatRect rect = collidable->getBBox();
@@ -38,7 +38,7 @@ void CollisionSystem::checkTileCollisions(Collidable* collidable,
             sf::FloatRect tileRect = map->getTileBBox({x, y});
             sf::FloatRect intersection;
             if(isColliding(collidable, tileRect, intersection)) {
-                CollisionData data {collidable, tileRect, 
+                CollisionData data {collidable, tileRect,
                   getCollisionAxis(intersection)};
                 m_collisions.emplace_back(std::make_pair(
                   CollisionTarget::Tile, data));
@@ -47,13 +47,13 @@ void CollisionSystem::checkTileCollisions(Collidable* collidable,
     }
 }
 
-void CollisionSystem::checkCollidableCollisions(Collidable* collidable, 
+void CollisionSystem::checkCollidableCollisions(Collidable* collidable,
   Collidables& collidables)
 {
     for(auto& iter : collidables) {
         sf::FloatRect intersection;
         if(isColliding(collidable, iter, intersection)) {
-            CollisionData data {collidable, iter, 
+            CollisionData data {collidable, iter,
               getCollisionAxis(intersection)};
             m_collisions.emplace_back(std::make_pair(
               CollisionTarget::Collidable, data));
@@ -62,7 +62,7 @@ void CollisionSystem::checkCollidableCollisions(Collidable* collidable,
 }
 
 void CollisionSystem::checkCollisions(Collidable* collidable,
-  Collidables& collidables, TileMap* map) 
+  Collidables& collidables, TileMap* map)
 {
     checkTileCollisions(collidable, map);
     checkCollidableCollisions(collidable, collidables);
