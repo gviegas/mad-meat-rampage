@@ -5,6 +5,9 @@
  *  Created by Marcelo Cohen on 08/13.
  *  Copyright 2013 PUCRS. All rights reserved.
  *
+ *
+ * NOTICE: Changed by Gustavo Viegas on 2017/07
+ *
  */
 
 #include "Game.h"
@@ -42,6 +45,9 @@ Game::Game(int minFrameRate, int maxFrameRate)
     clock.setSampleDepth(100); // Sample 100 frames for averaging.
 }
 
+/*
+* init(): Last modified on 2017/07 by Gustavo Viegas
+*/
 void Game::init(const char* title, int width, int height, bool fullscreen)
 {
     auto mode = sf::VideoMode(width, height);
