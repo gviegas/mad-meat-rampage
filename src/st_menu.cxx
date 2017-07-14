@@ -38,11 +38,12 @@ void STMenu::handleEvents(cgf::Game* game) {
     }
 
     if(m_inputs->testEvent("Left-Click")) {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(*screen);
+        sf::Vector2f mousePos =
+          screen->mapPixelToCoords(sf::Mouse::getPosition(*screen));
         for(auto& iter : m_buttons) {
             sf::Vector2f buttonPos = iter.second.getPosition();
             sf::FloatRect buttonRect = iter.second.getLocalBounds();
-            if(mousePos.x >= buttonPos.x && 
+            if(mousePos.x >= buttonPos.x &&
               mousePos.x <= buttonPos.x + buttonRect.width &&
               mousePos.y >= buttonPos.y &&
               mousePos.y <= buttonPos.y + buttonRect.height)
@@ -63,11 +64,11 @@ void STMenu::handleEvents(cgf::Game* game) {
 }
 
 void STMenu::update(cgf::Game* game) {
-    sf::Vector2u screenSize = game->getScreen()->getSize();
-    int offset = screenSize.y * 0.1;
+    sf::Vector2f viewSize = game->getScreen()->getView().getSize();
+    int offset = viewSize.y * 0.1;
     for(auto& iter : m_buttons) {
         sf::IntRect rect = iter.second.getTextureRect();
-        iter.second.setPosition(screenSize.x / 2 - rect.width / 2,
+        iter.second.setPosition(viewSize.x / 2 - rect.width / 2,
           rect.top + offset);
     }
 }
@@ -83,7 +84,7 @@ void STMenu::loadConf(const std::string& fileName) {
     std::ifstream file;
     file.open(aux::getBasePath() + fileName);
     if(!file.is_open()) {
-        std::cerr << "ERROR: STMenu::loadConf - " << fileName << std::endl; 
+        std::cerr << "ERROR: STMenu::loadConf - " << fileName << std::endl;
     } else {
         std::string line;
         while(std::getline(file, line)) {
@@ -95,7 +96,7 @@ void STMenu::loadConf(const std::string& fileName) {
                 sstream >> texFile;
                 m_texture.loadFromFile(aux::getBasePath() + texFile);
             } else if(attr == "PLAY" || attr == "OPTIONS"
-              || attr == "CREDITS" || attr == "EXIT") 
+              || attr == "CREDITS" || attr == "EXIT")
             {
                 unsigned int width, height, row, column;
                 sstream >> width >> height >> row >> column;
@@ -111,7 +112,7 @@ void STMenu::loadConf(const std::string& fileName) {
                 } else if(attr == "EXIT") {
                     m_buttons.emplace(ButtonType::Exit, sprite);
                 }
-            } 
+            }
         }
         file.close();
     }

@@ -7,8 +7,8 @@
 
 #include <string>
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 960
 #define TILE_WIDTH 64
 #define TILE_HEIGHT 64
 
