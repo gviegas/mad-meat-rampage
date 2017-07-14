@@ -5,6 +5,9 @@
  *  Created by Marcelo Cohen on 08/13.
  *  Copyright 2013 PUCRS. All rights reserved.
  *
+ *
+ * NOTICE: Changed by Gustavo Viegas on 2017/07
+ *
  */
 
 #include "Game.h"
@@ -42,48 +45,34 @@ Game::Game(int minFrameRate, int maxFrameRate)
     clock.setSampleDepth(100); // Sample 100 frames for averaging.
 }
 
+/*
+* init(): Last modified on 2017/07 by Gustavo Viegas
+*/
 void Game::init(const char* title, int width, int height, bool fullscreen)
 {
-
     auto mode = sf::VideoMode(width, height);
-    if(fullscreen && mode.isValid()) {
+    if(fullscreen) {
+      if(mode.isValid())
         screen = new sf::RenderWindow(mode, title, sf::Style::Fullscreen);
-    } else {
-        screen = new sf::RenderWindow(mode, title);
-    }
+      else
+        screen = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), title,
+          sf::Style::Fullscreen);
+    } else
+      screen = new sf::RenderWindow(mode, title);
 
-    std::cout << "Screen Size: " << screen->getSize().x 
-      << "x" << screen->getSize().y << std::endl;
+    auto ws = screen->getDefaultView().getSize();
+    float w = ws.y / 3 * 4;
+    float off = (ws.x - w) / 2;
 
-    // Enable transparency through blending
-//    glEnable(GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    sf::View view;
+    view.reset(sf::FloatRect(0, 0, 1280.0, 960.0));
+    view.setViewport(sf::FloatRect(off / ws.x, 0, w / ws.x, 1));
+    screen->setView(view);
 
     originalView = screen->getView();
-
-	this->fullscreen = fullscreen;
-
-	running = true;
-
-    printAttributes();
-
-//	glewInit();
-
-	cout << "Game Initialised Succesfully" << endl;
-}
-
-
-void Game::printAttributes ()
-{
-    return;
-    std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
-    for (std::size_t i = 0; i < modes.size(); ++i)
-    {
-        sf::VideoMode mode = modes[i];
-        std::cout << "Mode #" << i << ": "
-                  << mode.width << "x" << mode.height << " - "
-                  << mode.bitsPerPixel << " bpp" << std::endl;
-    }
+    this->fullscreen = fullscreen;
+    running = true;
+	  cout << "Game Initialised Succesfully" << endl;
 }
 
 void Game::handleEvents()

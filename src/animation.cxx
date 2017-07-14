@@ -12,8 +12,8 @@ Animation::Animation(sf::Sprite* sprite): m_sprite(sprite), m_currentAnim("") {
     m_isPlaying = false;
     m_isStopped = false;
     m_isLooping = false;
-    m_interval = 33.3; //
-    m_elapsed = 0.0; //
+    m_interval = 33.3;
+    m_elapsed = 0.0;
 }
 Animation::~Animation() {}
 

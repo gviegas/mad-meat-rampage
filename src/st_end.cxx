@@ -35,9 +35,9 @@ void STEnd::handleEvents(cgf::Game* game) {
     sf::Event event;
     while(screen->pollEvent(event)) {
         if(event.type == sf::Event::Closed ||
-          m_inputs->testEvent("Quit")) 
-        { 
-            game->quit(); 
+          m_inputs->testEvent("Quit"))
+        {
+            game->quit();
         }
     }
 
@@ -48,12 +48,12 @@ void STEnd::handleEvents(cgf::Game* game) {
 }
 
 void STEnd::update(cgf::Game* game) {
-    sf::Vector2u screenSize = game->getScreen()->getSize();
-    m_bg.setPosition(screenSize.x / 2 - m_texture.getSize().x / 2, 
-      (screenSize.y / 2 - m_texture.getSize().y / 2) * 0.5);
+    sf::Vector2f viewSize = game->getScreen()->getView().getSize();
+    m_bg.setPosition(viewSize.x / 2 - m_texture.getSize().x / 2,
+      (viewSize.y / 2 - m_texture.getSize().y / 2) * 0.5);
     sf::FloatRect rect = m_text.getLocalBounds();
-    m_text.setPosition(screenSize.x / 2 - rect.width / 2,
-      (screenSize.y / 2 - rect.height / 2) * 1.7);    
+    m_text.setPosition(viewSize.x / 2 - rect.width / 2,
+      (viewSize.y / 2 - rect.height / 2) * 1.7);
 }
 
 void STEnd::draw(cgf::Game* game) {
