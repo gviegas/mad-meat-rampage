@@ -1,7 +1,0 @@
-How to run:
-
-1. Install SFML
-2. cd mmr (or whatever name you use for the root directory of the application)
-3. To build: make
-4. To run: bin/mmr
-5. To run in windowed mode: bin/mmr -w
