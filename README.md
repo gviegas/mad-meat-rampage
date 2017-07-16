@@ -32,10 +32,13 @@ Right you just want to know how to actually play, I get it. Use the arrow keys t
 Never. When you beat all the levels, they start again. You keep your score though.
 
 #### There are too few levels.
-You can easily create more! Files under `data/` can be modified to change and/or create levels! Take a look [here](docs/Editing.md).
+You can easily create more! Files under `data/` can be modified to create new levels and/or change existing ones! Take a look [here](docs/Editing.md).
 
 #### Your "art" is UGLY, I can't stand it.
 Understandable. Good news though: you can replace it with yours! As with levels, the textures can be changed. Read [this](docs/Editing.md).
+
+#### This damn pig is too FAST!
+Yeah, there is no limit to how much it can accelerate. Characters attributes like speed can be changed just like levels and textures. [Here's how to do it](docs/Editing.md).
 
 #### This piece of software exploded my computer!
 Oh. [Sorry](LICENSE.md).
