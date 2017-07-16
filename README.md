@@ -38,7 +38,13 @@ You can easily create more! Files under `data/` can be modified to create new le
 Understandable. Good news though: you can replace it with yours! As with levels, the textures can be changed. Read [this](docs/Editing.md).
 
 #### This damn pig is too FAST!
-Yeah, there is no limit to how much it can accelerate. Characters attributes like speed can be changed just like levels and textures. [Here's how to do it](docs/Editing.md).
+Yeah, there is no limit to how much it can accelerate. Character attributes like speed can be changed just like levels and textures. [Here's how to do it](docs/Editing.md).
+
+#### I think I found a bug.
+I am sure you did.
+
+#### I will fix this nasty bug.
+Please, do it.
 
 #### This piece of software exploded my computer!
 Oh. [Sorry](LICENSE.md).
@@ -48,4 +54,4 @@ Unless otherwise mentioned, the source code of this project is licensed under th
 
 The game textures/images are licensed under the terms of the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
-Also see [Credits](docs/Credits.md).
+See also [Credits](docs/Credits.md).
