@@ -20,4 +20,29 @@ Mad Meat Rampage is a silly, boring and buggy game. You have been warned.
 #### On Windows:
 1.  Install a Linux distribution
 1.  See above
-1.  Joke. Well, not really. See [this](docs/Install.md).
+1.  Joke. Well, not really. See [this](docs/Installing.md).
+
+## How to play
+So this midget man made his fortune slaughtering kind animals to sell bacon and nuggets. The animals have had enough, and now they want revenge.
+
+Right you just want to know how to actually play, I get it. Use the arrow keys to move and jump (you can also move in midair). The mad pigs and chickens will try to kill you no matter what (yes, you're the midget guy). They will go straight to the traps found across the level, so you can use this to your advantage (the traps will kill you too though, avoid them). There will be a key somewhere in the level, you have to pick it up and take it to the door, and then the next level will load.
+
+## Ok but...
+#### I am seeing the same levels again. When the game ends?
+Never. When you beat all the levels, they start again. You keep your score though.
+
+#### There are too few levels.
+You can easily create more! Files under `data/` can be modified to change and/or create levels! Take a look [here](docs/Editing.md).
+
+#### Your "art" is UGLY, I can't stand it.
+Understandable. Good news though: you can replace it with yours! As with levels, the textures can be changed. Read [this](docs/Editing.md).
+
+#### This piece of software exploded my computer!
+Oh. [Sorry](LICENSE.md).
+
+## License
+Unless otherwise mentioned, the source code of this project is licensed under the [MIT License](LICENSE.md).
+
+The game textures/images are licensed under the terms of the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
+Also see [Credits](docs/Credits.md).
