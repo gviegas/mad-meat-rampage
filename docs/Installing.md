@@ -12,7 +12,7 @@ The application was tested on Debian, Ubuntu and Fedora. SFML is also available 
 
 `$ sudo dnf install SFML`
 
-After installing SFML for your distribution, just use `make` to build the application, as explained in the [README](../README.md).
+After installing SFML for your distribution, just use `make` to build the application, as explained in the [README](../README.md#how-to-run).
 
 ### macOS
 
