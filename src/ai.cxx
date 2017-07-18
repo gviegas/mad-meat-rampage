@@ -8,10 +8,10 @@ AI::AI() { m_lastMove = Movement::Idle; }
 AI::~AI() {}
 
 void AI::createGraph(TileMap* map) {
-    for(int i = 0; i < map->getGridSize().x; ++i) {
-        for(int j = 1; j < map->getGridSize().y; ++j) {
+    for(unsigned int i = 0; i < map->getGridSize().x; ++i) {
+        for(unsigned int j = 1; j < map->getGridSize().y; ++j) {
             if(map->checkTile({i, j})) {
-                m_graph.insert({i, j});
+                m_graph.insert({static_cast<int>(i), static_cast<int>(j)});
             }
         }
     }
@@ -93,10 +93,10 @@ void AI::act(Character* actor, Character* target, double updateInterval) {
     float delta = (float)(updateInterval / 1000);
 
     std::vector<Edge*> steps = search(
-      {actor->getPosition().x / actor->getBBox().width,
-      actor->getPosition().y / actor->getBBox().height},
-      {target->getPosition().x / target->getBBox().width,
-      target->getPosition().y / target->getBBox().height});
+      {static_cast<unsigned int>(actor->getPosition().x / actor->getBBox().width),
+      static_cast<unsigned int>(actor->getPosition().y / actor->getBBox().height)},
+      {static_cast<unsigned int>(target->getPosition().x / target->getBBox().width),
+      static_cast<unsigned int>(target->getPosition().y / target->getBBox().height)});
 
     if(actor->getAction() == Action::Jump) {
         if(m_lastMove == Movement::JumpLeft) {
