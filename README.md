@@ -20,7 +20,7 @@ Mad Meat Rampage is a silly, boring and buggy game. You have been warned.
 #### On Windows:
 1.  Install a Linux distribution
 1.  See above
-1.  Joke. Well, not really. See [this](docs/Installing.md).
+1.  Joke. Well, not really. See [this](docs/Installing.md#windows).
 
 ## How to play
 So this midget man made his fortune slaughtering kind animals to sell bacon and nuggets. The animals have had enough, and now they want revenge.
@@ -32,13 +32,13 @@ Right you just want to know how to actually play, I get it. Use the arrow keys t
 Never. When you beat all the levels, they start again. You keep your score though.
 
 #### There are too few levels.
-You can easily create more! Files under `data/` can be modified to create new levels and/or change existing ones! Take a look [here](docs/Editing.md).
+You can easily create more! Files under `data` can be modified to create new levels and/or change existing ones! Take a look [here](docs/Editing.md#levels).
 
 #### Your "art" is UGLY, I can't stand it.
-Understandable. Good news though: you can replace it with yours! As with levels, the textures can be changed. Read [this](docs/Editing.md).
+Understandable. Good news though: you can replace it with yours! As with levels, the textures can be changed. Read [this](docs/Editing.md#textures-and-animations).
 
 #### This damn pig is too FAST!
-Yeah, there is no limit to how much it can accelerate. Character attributes like speed can be changed just like levels and textures. [Here's how to do it](docs/Editing.md).
+Yeah, there is no limit to how much it can accelerate. Character attributes like speed can be changed just like levels and textures. [Here's how to do it](docs/Editing.md#characters-and-objects).
 
 #### I think I found a bug.
 I am sure you did.
