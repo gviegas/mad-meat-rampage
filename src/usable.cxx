@@ -20,7 +20,7 @@ void Usable::loadConf(const std::string& fileName) {
     std::ifstream file;
     file.open(aux::getBasePath() + fileName);
     if(!file.is_open()) {
-        std::cerr << "ERROR: Usable::loadConf - " << 
+        std::cerr << "ERROR: Usable::loadConf - " <<
           fileName << std::endl;
     } else {
         std::string line;
@@ -84,9 +84,9 @@ void Usable::update(double updateInterval) {
           rect.top + (rect.height - m_bBox.height)});
         setDirection(m_user->getDirection());
     } else {
-        float delta = (float)(updateInterval / 1000); 
+        float delta = (float)(updateInterval / 1000);
         move(m_velocity * delta);
-        accelerate({0.0, 300.0 * delta});
+        accelerate({0.0, 300.0f * delta});
         addVelocity(m_acceleration);
         setAcceleration({0.0, 0.0});
     }

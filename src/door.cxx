@@ -30,7 +30,7 @@ void Door::loadConf(const std::string& fileName) {
                 sstream >> texFile;
                 create(texFile);
             } else if(attr == "BBOX") {
-                int left, top, width, height;
+                float left, top, width, height;
                 sstream >> left >> top >> width >> height;
                 m_bBox = {left, top, width, height};
             }

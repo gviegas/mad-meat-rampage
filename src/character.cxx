@@ -21,7 +21,7 @@ void Character::loadConf(const std::string& fileName) {
     std::ifstream file;
     file.open(aux::getBasePath() + fileName);
     if(!file.is_open()) {
-        std::cerr << "ERROR: Character::loadConf - " << 
+        std::cerr << "ERROR: Character::loadConf - " <<
           fileName << std::endl;
     } else {
         std::string line;
@@ -84,25 +84,25 @@ bool Character::toRemove() { return m_removal; }
 Animation& Character::getAnimation() { return m_animation; }
 
 void Character::animate(double updateInterval) {
-    if(m_animation.getCurrentAnim() == "Die" && 
-      m_animation.getFrameRange().x == m_animation.getFrameRange().y) 
-    { 
+    if(m_animation.getCurrentAnim() == "Die" &&
+      m_animation.getFrameRange().x == m_animation.getFrameRange().y)
+    {
         m_removal = true;
-        return; 
+        return;
     }
     switch(m_action) {
         case Action::None:
-            m_dir == Direction::Left ? 
+            m_dir == Direction::Left ?
               m_animation.animate("Idle-Left", updateInterval)
               : m_animation.animate("Idle-Right", updateInterval);
             break;
         case Action::Walk:
-            m_dir == Direction::Left ? 
+            m_dir == Direction::Left ?
               m_animation.animate("Walk-Left", updateInterval)
               : m_animation.animate("Walk-Right", updateInterval);
             break;
         case Action::Jump:
-            m_dir == Direction::Left ? 
+            m_dir == Direction::Left ?
               m_animation.animate("Jump-Left", updateInterval)
               : m_animation.animate("Jump-Right", updateInterval);
             break;
@@ -117,7 +117,7 @@ void Character::update(double updateInterval) {
     if(m_action != Action::Die) {
     //if(!m_removal) {
         float delta = (float)(updateInterval / 1000);
-        
+
         move(m_velocity * delta);
 
         // boundary checking (no need to check > max Y for now - will use tiles as floor)
@@ -125,16 +125,16 @@ void Character::update(double updateInterval) {
             setVelocity({m_velocity.x, 0.0});
             m_pos.y = 0.0;
         }
-        if(m_pos.x < 0.0) { 
+        if(m_pos.x < 0.0) {
             setVelocity({0.0, m_velocity.y});
-            m_pos.x = 0.0; 
+            m_pos.x = 0.0;
         }
         else if(m_pos.x > SCREEN_WIDTH - m_bBox.height) {
-            setVelocity({0.0, m_velocity.y}); 
+            setVelocity({0.0, m_velocity.y});
             m_pos.x = SCREEN_WIDTH - m_bBox.height;
         }
 
-        accelerate({0.0, 300.0 * delta});
+        accelerate({0.0, 300.0f * delta});
         addVelocity(m_acceleration);
         setAcceleration({0.0, 0.0});
 

@@ -57,7 +57,7 @@ void Animation::animate(std::string animation, double updateInterval) {
         } else {
             m_currentRect = iter->second.m_rect;
             m_currentAnim = animation;
-            m_frameRange = {0, iter->second.m_totalFrames};
+            m_frameRange = {0, static_cast<int>(iter->second.m_totalFrames)};
             m_elapsed = 0.0;  //
             m_isPlaying = true;
             play(m_interval);

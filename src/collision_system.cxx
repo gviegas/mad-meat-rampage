@@ -35,7 +35,8 @@ void CollisionSystem::checkTileCollisions(Collidable* collidable,
     int ry = map->getTileSize().y;
     for(int x = rect.left / rx; x <= (rect.left + rect.width) / rx; ++x) {
         for(int y = rect.top / ry; y <= (rect.top + rect.height) / ry; ++y) {
-            sf::FloatRect tileRect = map->getTileBBox({x, y});
+            sf::FloatRect tileRect = map->getTileBBox(
+              {static_cast<unsigned int>(x), static_cast<unsigned int>(y)});
             sf::FloatRect intersection;
             if(isColliding(collidable, tileRect, intersection)) {
                 CollisionData data {collidable, tileRect,

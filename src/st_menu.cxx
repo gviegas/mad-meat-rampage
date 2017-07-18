@@ -98,7 +98,7 @@ void STMenu::loadConf(const std::string& fileName) {
             } else if(attr == "PLAY" || attr == "OPTIONS"
               || attr == "CREDITS" || attr == "EXIT")
             {
-                unsigned int width, height, row, column;
+                int width, height, row, column;
                 sstream >> width >> height >> row >> column;
                 sf::Sprite sprite;
                 sprite.setTextureRect({column * width, row * height,

@@ -87,7 +87,8 @@ void TileMap::loadMap(const std::string& fileName) {
             std::string attr;
             sstream >> attr;
             if(attr == "TILE") {
-                int id, x, y;
+                int id;
+                unsigned int x, y;
                 sstream >> id >> x >> y;
                 if(!m_tileSet.addTile(id, {x, y})) {
                     std::cerr << "ERROR: TileMap::loadMap - TILE " <<
@@ -106,8 +107,8 @@ void TileMap::draw(sf::RenderWindow* screen) {
     screen->draw(m_bg);
     // TODO: culling (won't be needed if the map and the screen
     // have the same size...)
-    for(int i = 0; i < m_tileSet.getGridSize().x; ++i) {
-        for(int j = 0; j < m_tileSet.getGridSize().y; ++j) {
+    for(unsigned int i = 0; i < m_tileSet.getGridSize().x; ++i) {
+        for(unsigned int j = 0; j < m_tileSet.getGridSize().y; ++j) {
             Tile* tile;
             if(tile = m_tileSet.getTile({i, j})) {
                 sf::Sprite& sprite = tile->m_type->m_sprite;
