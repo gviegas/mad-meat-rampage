@@ -44,10 +44,10 @@ Yeah, there is no limit to how much it can accelerate. Character attributes like
 I am sure you did.
 
 #### I will fix this nasty bug.
-Please, do it.
+Please, do it. And thank you.
 
 #### This piece of software exploded my computer!
-Oh. [Sorry](LICENSE.md).
+Oh. Sorry. You can fill an issue [here](https://github.com/gviegas/mad-meat-rampage/issues) so we can look into it.
 
 ## License
 Unless otherwise mentioned, the source code of this project is licensed under the [MIT License](LICENSE.md).
