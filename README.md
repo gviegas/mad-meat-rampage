@@ -11,11 +11,12 @@ Mad Meat Rampage is a silly, boring and buggy game. You have been warned.
 ## How to Run
 #### On Linux (and maybe macOS):
 1. Install [SFML](https://www.sfml-dev.org)
-1. `cd mad-meat-rampage` (or whatever name you use for the root directory of the application)
-1.  `make`
-1. To run:
-   1. Fullscreen mode: `bin/mmr`
-   1. Windowed mode: `bin/mmr -w`
+1. Open the Terminal and type the following commands:
+   1. `cd <PATH>/<TO>/mad-meat-rampage` (or whatever name you use for the root directory of the application)
+   1.  `make`
+   1. Once `make` has finished, run the game:
+      1. In fullscreen mode: `bin/mmr`
+      1. In windowed mode: `bin/mmr -w`
 
 #### On Windows:
 1.  Install a Linux distribution
@@ -44,7 +45,7 @@ Yeah, there is no limit to how much it can accelerate. Character attributes like
 I am sure you did.
 
 #### I will fix this nasty bug.
-Please, do it. And thank you.
+Yes please! And thank you!
 
 #### This piece of software exploded my computer!
 Oh. Sorry. You can fill an issue [here](https://github.com/gviegas/mad-meat-rampage/issues) so we can look into it.
