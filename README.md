@@ -29,7 +29,7 @@ So this midget man made his fortune slaughtering kind animals to sell bacon and 
 Right you just want to know how to actually play, I get it. Use the arrow keys to move and jump (you can also move in midair). The mad pigs and chickens will try to kill you no matter what (yes, you're the midget guy). They will go straight to the traps found across the level, so you can use this to your advantage (the traps will kill you too though, avoid them). There will be a key somewhere in the level, you have to pick it up and take it to the door, and then the next level will load.
 
 ## Ok But...
-#### I am seeing the same levels again. When the game ends?
+#### I am seeing the same levels again. When does the game end?
 Never. When you beat all the levels, they start again. You keep your score though.
 
 #### There are too few levels.
@@ -38,7 +38,7 @@ You can easily create more! Files under [data](data) can be modified to create n
 #### Your "art" is UGLY, I can't stand it.
 Understandable. Good news though: you can replace it with yours! As with levels, the textures can be changed. Read [this](docs/Editing.md#textures-and-animations).
 
-#### This damn pig is too FAST!
+#### This pig is too FAST!
 Yeah, there is no limit to how much it can accelerate. Character attributes like speed can be changed just like levels and textures. [Here's how to do it](docs/Editing.md#characters-and-objects).
 
 #### I think I found a bug.
